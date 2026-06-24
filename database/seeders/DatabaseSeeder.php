@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@brain-tech.com'],
             [
                 'name' => 'Brain-Tech Admin',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('Br@inTech-Adm1n#2026!'),
                 'email_verified_at' => now(),
             ],
         );
