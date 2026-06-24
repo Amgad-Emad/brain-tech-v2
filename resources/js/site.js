@@ -76,7 +76,9 @@ function onRevealScroll() {
 }
 
 refreshReveal();
-handleReveal();
+// Double rAF: paint the hidden state first, then reveal in-view elements so the
+// hero's entrance transition actually plays on load (not just appears).
+requestAnimationFrame(() => requestAnimationFrame(handleReveal));
 window.addEventListener('scroll', onRevealScroll, { passive: true });
 window.addEventListener('resize', onRevealScroll);
 
