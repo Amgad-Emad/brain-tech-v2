@@ -51,39 +51,39 @@ function onScroll() {
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-/* ---------- scroll reveal (animated, with a fail-safe so nothing stays hidden) ---------- */
-document.body.classList.add('bt-ready');
-const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
-const reveal = (el) => el.classList.add('bt-in');
+/* ---------- scroll reveal (matches the original: toggle .bt-in by viewport position) ---------- */
+root.classList.add('bt-ready'); // enable reveal-hiding only now that JS runs
 
-if ('IntersectionObserver' in window && reveals.length) {
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        reveal(entry.target);
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+let revealEls = [];
+let revealRaf = null;
 
-  const aboveFold = [];
-  reveals.forEach((el) => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      aboveFold.push(el);   // hero etc. — animate explicitly so it can't get stuck
-    } else {
-      io.observe(el);       // the rest animate as they scroll into view
-    }
-  });
+function refreshReveal() {
+  revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
+}
 
-  // Double rAF: let the hidden state paint first, then add .bt-in so the
-  // entrance transition actually plays for above-the-fold content.
-  requestAnimationFrame(() => requestAnimationFrame(() => aboveFold.forEach(reveal)));
+function handleReveal() {
+  const vh = window.innerHeight || 800;
+  for (const el of revealEls) {
+    const r = el.getBoundingClientRect();
+    const inView = r.top < vh * 0.9 && r.bottom > vh * 0.08;
+    el.classList.toggle('bt-in', inView);
+  }
+}
 
-  // Final safety net — reveal anything still hidden after the animations.
-  setTimeout(() => reveals.forEach(reveal), 2000);
-} else {
-  reveals.forEach(reveal);
+function onRevealScroll() {
+  if (revealRaf) return;
+  revealRaf = requestAnimationFrame(() => { revealRaf = null; handleReveal(); });
+}
+
+refreshReveal();
+handleReveal();
+window.addEventListener('scroll', onRevealScroll, { passive: true });
+window.addEventListener('resize', onRevealScroll);
+
+// Re-check as layout/fonts settle so above-the-fold content always appears.
+[150, 450, 900].forEach((d) => setTimeout(() => { refreshReveal(); handleReveal(); }, d));
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(handleReveal).catch(() => {});
 }
 
 /* ---------- stat count-up ---------- */
