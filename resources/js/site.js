@@ -51,7 +51,7 @@ function onScroll() {
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-/* ---------- scroll reveal (fail-safe: content can never stay hidden) ---------- */
+/* ---------- scroll reveal (animated, with a fail-safe so nothing stays hidden) ---------- */
 document.body.classList.add('bt-ready');
 const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
 const reveal = (el) => el.classList.add('bt-in');
@@ -64,24 +64,24 @@ if ('IntersectionObserver' in window && reveals.length) {
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' });
+  }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
 
-  reveals.forEach((el) => io.observe(el));
-
-  // Reveal anything already in view (above the fold) on the next frame, so the
-  // hero headline animates in and is never left clipped if the observer misses it.
-  requestAnimationFrame(() => {
-    reveals.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) {
-        reveal(el);
-        io.unobserve(el);
-      }
-    });
+  const aboveFold = [];
+  reveals.forEach((el) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      aboveFold.push(el);   // hero etc. — animate explicitly so it can't get stuck
+    } else {
+      io.observe(el);       // the rest animate as they scroll into view
+    }
   });
 
-  // Final safety net — reveal everything that's still hidden.
-  setTimeout(() => reveals.forEach(reveal), 1600);
+  // Double rAF: let the hidden state paint first, then add .bt-in so the
+  // entrance transition actually plays for above-the-fold content.
+  requestAnimationFrame(() => requestAnimationFrame(() => aboveFold.forEach(reveal)));
+
+  // Final safety net — reveal anything still hidden after the animations.
+  setTimeout(() => reveals.forEach(reveal), 2000);
 } else {
   reveals.forEach(reveal);
 }
