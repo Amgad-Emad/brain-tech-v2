@@ -28,6 +28,7 @@ class Sections
                 'label' => ['en' => 'Navigation', 'ar' => 'القائمة'],
                 'desc' => ['en' => 'Header menu links and the quote button.', 'ar' => 'روابط القائمة وزر العرض.'],
                 'settings' => [
+                    ['nav.home', 'text', 'Home link'],
                     ['nav.services', 'text', 'Services link'],
                     ['nav.work', 'text', 'Work link'],
                     ['nav.process', 'text', 'Process link'],

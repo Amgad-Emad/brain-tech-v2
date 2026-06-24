@@ -2,6 +2,7 @@
 
 return [
     'nav' => [
+        'home' => 'Home',
         'services' => 'Services',
         'work' => 'Work',
         'process' => 'Process',

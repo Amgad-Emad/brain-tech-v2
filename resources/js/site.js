@@ -51,21 +51,39 @@ function onScroll() {
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-/* ---------- scroll reveal ---------- */
+/* ---------- scroll reveal (fail-safe: content can never stay hidden) ---------- */
 document.body.classList.add('bt-ready');
-const reveals = document.querySelectorAll('[data-reveal]');
+const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
+const reveal = (el) => el.classList.add('bt-in');
+
 if ('IntersectionObserver' in window && reveals.length) {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('bt-in');
+        reveal(entry.target);
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' });
+
   reveals.forEach((el) => io.observe(el));
+
+  // Reveal anything already in view (above the fold) on the next frame, so the
+  // hero headline animates in and is never left clipped if the observer misses it.
+  requestAnimationFrame(() => {
+    reveals.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) {
+        reveal(el);
+        io.unobserve(el);
+      }
+    });
+  });
+
+  // Final safety net — reveal everything that's still hidden.
+  setTimeout(() => reveals.forEach(reveal), 1600);
 } else {
-  reveals.forEach((el) => el.classList.add('bt-in'));
+  reveals.forEach(reveal);
 }
 
 /* ---------- stat count-up ---------- */

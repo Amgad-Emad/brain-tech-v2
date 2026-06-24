@@ -1,5 +1,6 @@
 @php
     $navLinks = [
+        ['label' => st('nav.home', __('site.nav.home')), 'href' => route('home')],
         ['label' => st('nav.services', __('site.nav.services')), 'href' => route('services')],
         ['label' => st('nav.work', __('site.nav.work')), 'href' => route('work.index')],
         ['label' => st('nav.process', __('site.nav.process')), 'href' => route('home').'#process'],

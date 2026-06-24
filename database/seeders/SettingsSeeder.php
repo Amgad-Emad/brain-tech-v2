@@ -10,6 +10,7 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         // --- Navigation --------------------------------------------------
+        $this->put('nav.home', ['en' => 'Home', 'ar' => 'الرئيسية'], 'nav', true);
         $this->put('nav.services', ['en' => 'Services', 'ar' => 'خدماتنا'], 'nav', true);
         $this->put('nav.work', ['en' => 'Work', 'ar' => 'أعمالنا'], 'nav', true);
         $this->put('nav.process', ['en' => 'Process', 'ar' => 'منهجيتنا'], 'nav', true);
