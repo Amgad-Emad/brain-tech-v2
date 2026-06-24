@@ -1,3 +1,13 @@
+# Serve compiled assets with the correct MIME type. Some shared hosts mis-serve
+# .js, which makes the browser refuse to run <script type="module"> — that breaks
+# the theme toggle and scroll animations while the page still renders.
+<IfModule mod_mime.c>
+    AddType text/javascript .js .mjs
+    AddType text/css .css
+    AddType application/json .json
+    AddType image/svg+xml .svg
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
