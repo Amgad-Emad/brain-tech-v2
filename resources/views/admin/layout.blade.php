@@ -17,6 +17,12 @@
         'offers' => \App\Models\Service::count(),
     ];
     $unread = \App\Models\ContactMessage::unread()->count();
+
+    // Apply the brand palette to the admin chrome too.
+    $accent = setting_raw('theme.ink', null) ?: setting_raw('theme.accent', '#34e0a0');
+    $gradFrom = setting_raw('theme.grad_from', '#0ddc83');
+    $gradTo = setting_raw('theme.grad_to', '#16e89a');
+    [$ar, $ag, $ab] = sscanf(setting_raw('theme.accent', '#34e0a0'), '#%02x%02x%02x') ?: [13, 200, 123];
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $uiLocale }}" dir="{{ is_rtl() ? 'rtl' : 'ltr' }}" data-bt-theme="dark">
@@ -31,6 +37,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>try { document.documentElement.setAttribute('data-bt-theme', localStorage.getItem('bt-theme') || 'dark'); } catch (e) {}</script>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
+
+    {{-- Brand palette applied to the admin chrome — after @vite so it wins. --}}
+    <style>
+        :root, html[data-bt-theme] {
+            --acc: {{ $accent }};
+            --accRGB: {{ $ar }}, {{ $ag }}, {{ $ab }};
+            --g: linear-gradient(135deg, {{ $gradFrom }} 0%, {{ $gradTo }} 100%);
+        }
+    </style>
 </head>
 <body>
     <header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;height:64px;padding:0 20px;background:var(--bg2);border-bottom:1px solid var(--border);">

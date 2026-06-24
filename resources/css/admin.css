@@ -43,7 +43,7 @@ body {
   --sidebar: #eef0f7;
 }
 
-::selection { background: rgba(13, 200, 123, 0.3); }
+::selection { background: rgba(var(--accRGB), 0.3); }
 ::-webkit-scrollbar { width: 11px; height: 11px; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; border: 3px solid transparent; background-clip: content-box; }
 
@@ -73,7 +73,7 @@ a { color: inherit; }
   font-size: 13.5px;
   padding: 12px 20px;
   border-radius: 12px;
-  box-shadow: 0 12px 34px rgba(13, 200, 123, 0.4);
+  box-shadow: 0 12px 34px rgba(var(--accRGB), 0.4);
   animation: bt-toast 3.2s ease forwards;
 }
 
@@ -100,7 +100,7 @@ a { color: inherit; }
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   height: 40px; padding: 0 18px; border-radius: 10px; border: none; cursor: pointer;
   background: var(--g); color: #06281a; font-size: 13.5px; font-weight: 700;
-  box-shadow: 0 6px 18px rgba(13, 200, 123, 0.3); text-decoration: none;
+  box-shadow: 0 6px 18px rgba(var(--accRGB), 0.3); text-decoration: none;
 }
 .bt-btn-ghost { background: var(--panel2); border: 1px solid var(--border); color: var(--fg); box-shadow: none; }
 .bt-btn-danger { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #ef6464; box-shadow: none; }

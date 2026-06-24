@@ -50,14 +50,19 @@ window.addEventListener('beforeunload', (e) => {
 
 /* ---------- live colour preview ---------- */
 function syncColors() {
+  // Only on the Brand & Colors editor — elsewhere the layout's injected brand
+  // palette must stand untouched.
+  if (!document.querySelector('[data-color]')) return;
   const get = (k) => document.querySelector(`[data-color="${k}"]`)?.value;
   const accent = get('accent') || '#34e0a0';
   const from = get('grad_from') || accent;
   const to = get('grad_to') || accent;
   const ink = get('ink') || accent;
-  const scope = document.querySelector('[data-color-scope]') || root;
-  scope.style.setProperty('--acc', ink);
-  scope.style.setProperty('--g', `linear-gradient(135deg, ${from} 0%, ${to} 100%)`);
+  // Recolour the entire admin chrome live as the user drags.
+  root.style.setProperty('--acc', ink);
+  root.style.setProperty('--g', `linear-gradient(135deg, ${from} 0%, ${to} 100%)`);
+  const rgb = accent.replace('#', '').match(/.{2}/g);
+  if (rgb) root.style.setProperty('--accRGB', rgb.map((h) => parseInt(h, 16)).join(', '));
   document.querySelectorAll('[data-color-swatch]').forEach((sw) => {
     const k = sw.getAttribute('data-color-swatch');
     sw.style.background = get(k);

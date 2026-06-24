@@ -78,18 +78,19 @@
         } catch (e) {}
     </script>
 
-    {{-- CMS-controlled accent / gradient --}}
+    @stack('head')
+    @vite(($previewMode ?? false) ? ['resources/css/site.css'] : ['resources/css/site.css', 'resources/js/site.js'])
+
+    {{-- CMS-controlled accent / gradient — MUST come after @vite(site.css) so it
+         overrides the default palette instead of being overridden by it. --}}
     <style>
-        :root, [data-bt-theme] {
+        :root, html[data-bt-theme] {
             --acc: {{ $accent }};
             --ic: {{ $accent }};
             --accRGB: {{ $ar }}, {{ $ag }}, {{ $ab }};
             --g: linear-gradient(135deg, {{ $gradFrom }} 0%, {{ $gradTo }} 100%);
         }
     </style>
-
-    @stack('head')
-    @vite(($previewMode ?? false) ? ['resources/css/site.css'] : ['resources/css/site.css', 'resources/js/site.js'])
 </head>
 <body style="background:var(--bg);color:var(--fg);min-height:100vh;position:relative;">
     @include('site.partials.nav')
