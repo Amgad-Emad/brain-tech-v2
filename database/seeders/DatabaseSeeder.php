@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SettingsSeeder::class,
             ContentSeeder::class,
-            VisitSeeder::class,
+            // VisitSeeder::class,
         ]);
 
         Setting::flushCache();
