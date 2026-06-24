@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;padding:0;background:#08080b;}
+  :root,[data-bt-theme="dark"]{--bg:#08080b;--panel:rgba(255,255,255,0.035);--panel2:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.09);--border2:rgba(255,255,255,0.16);--fg:#f5f5f7;--muted:rgba(245,245,247,0.6);--faint:rgba(245,245,247,0.4);--acc:#34e0a0;--ic:#34e0a0;--accRGB:13,200,123;--grid:rgba(255,255,255,0.04);--g:linear-gradient(135deg,#0ddc83 0%,#16e89a 100%);}
+  [data-bt-theme="light"]{--bg:#f5f6fb;--panel:rgba(18,20,45,0.035);--panel2:rgba(18,20,45,0.05);--border:rgba(18,20,45,0.1);--border2:rgba(18,20,45,0.18);--fg:#10122a;--muted:rgba(16,18,42,0.62);--faint:rgba(16,18,42,0.45);--acc:#0a9b5c;--ic:#0a9d5f;--accRGB:13,200,123;--grid:rgba(18,20,45,0.06);--g:linear-gradient(135deg,#06b870 0%,#10c87e 100%);}
+  ::selection{background:rgba(var(--accRGB),0.35);}
+  @keyframes bt-float{0%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,-30px) scale(1.08);}100%{transform:translate(0,0) scale(1);}}
+  @keyframes bt-float2{0%{transform:translate(0,0) scale(1);}50%{transform:translate(-50px,30px) scale(1.12);}100%{transform:translate(0,0) scale(1);}}
+  @keyframes bt-grid{0%{background-position:0 0;}100%{background-position:64px 64px;}}
+  html{scroll-behavior:smooth;}
+  /* scroll reveal — progressive enhancement: hidden only once JS adds .bt-ready */
+  .bt-ready [data-reveal]{opacity:0;transform:translateY(46px);filter:blur(7px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1),filter .8s ease;will-change:opacity,transform,filter;}
+  .bt-ready [data-reveal="left"]{transform:translateX(-54px);}
+  .bt-ready [data-reveal="right"]{transform:translateX(54px);}
+  .bt-ready [data-reveal="scale"]{transform:scale(.9);}
+  .bt-ready [data-reveal="rise"]{transform:translateY(84px) scale(.96);}
+  .bt-ready [data-reveal="clip"]{opacity:1;filter:none;transform:none;clip-path:inset(0 0 105% 0);transition:clip-path 1.05s cubic-bezier(.16,1,.3,1);}
+  .bt-ready [data-reveal].bt-in{opacity:1;transform:none;filter:none;clip-path:inset(0 0 -10% 0);}
+  /* staggered cascade for grids & lists */
+  .bt-ready .bt-stagger > [data-reveal]{transition-delay:0s;}
+  .bt-ready .bt-stagger > [data-reveal]:nth-child(2){transition-delay:.09s;}
+  .bt-ready .bt-stagger > [data-reveal]:nth-child(3){transition-delay:.18s;}
+  .bt-ready .bt-stagger > [data-reveal]:nth-child(4){transition-delay:.27s;}
+  .bt-ready .bt-stagger > [data-reveal]:nth-child(5){transition-delay:.36s;}
+  .bt-ready .bt-stagger > [data-reveal]:nth-child(6){transition-delay:.45s;}
+  .bt-ready .bt-stagger > [data-reveal]:nth-child(7){transition-delay:.54s;}
+  /* when the page is not being painted (hidden tab/preview), skip transitions so state still applies */
+  .bt-snap [data-reveal]{transition:none !important;}
+  .bt-snap [data-bt-theme]{transition:none !important;}
+  /* Arabic / RTL */
+  [dir="rtl"]{font-family:'Cairo',sans-serif;}
+  [dir="rtl"] :is(h1,h2,h3,h4){font-family:'Cairo',sans-serif !important;letter-spacing:0 !important;}
+  @media (max-width:880px){
+    .bt-desktop-nav{display:none !important;}
+    .bt-cta-desktop{display:none !important;}
+    .bt-burger{display:inline-flex !important;}
+  }
+  @media (min-width:881px){.bt-mobile-panel{display:none !important;}}
+  @media (max-width:640px){
+    .bt-hero-ctas{flex-direction:column !important;align-items:stretch !important;}
+    .bt-stats-row{grid-template-columns:repeat(2,1fr) !important;}
+    .bt-process-row{flex-direction:column !important;gap:34px !important;}
+    .bt-process-row .bt-proc-line{display:none !important;}
+    .bt-detail-grid{grid-template-columns:1fr !important;}
+    .bt-detail-meta{grid-template-columns:repeat(2,1fr) !important;}
+  }
+  @media (max-width:860px){.bt-foot-grid{grid-template-columns:1fr 1fr !important;gap:34px !important;}}
+  @media (max-width:560px){
+    .bt-foot-grid{grid-template-columns:1fr !important;}
+    main > section, #stats-band{padding-left:18px !important;padding-right:18px !important;}
+    .bt-hero{padding-top:128px !important;padding-bottom:72px !important;}
+    .bt-foot-bottom{flex-direction:column !important;align-items:flex-start !important;gap:8px !important;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .bt-ready [data-reveal]{opacity:1 !important;transform:none !important;filter:none !important;clip-path:none !important;transition:none !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+<title>Brain-Tech — Custom Software, IT, Marketing & Video Editing Agency</title>
+<meta name="description" content="Brain-Tech is an enterprise-grade technology agency offering custom software development, IT and cloud solutions, digital marketing, and professional video editing — one accountable team, end to end.">
+<meta name="keywords" content="technology agency, custom software development, IT solutions, cloud infrastructure, DevOps, digital marketing, SEO, video editing, web development, Brain-Tech">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#08080b">
+<link rel="canonical" href="https://brain-tech.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Brain-Tech">
+<meta property="og:title" content="Brain-Tech — Enterprise-grade Technology Agency">
+<meta property="og:description" content="Custom software, IT & cloud, digital marketing, and professional video editing. One accountable team, built for scale.">
+<meta property="og:url" content="https://brain-tech.com/">
+<meta property="og:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brain-Tech — Enterprise-grade Technology Agency">
+<meta name="twitter:description" content="Custom software, IT & cloud, digital marketing, and professional video editing.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"ProfessionalService","@id":"https://brain-tech.com/#org","name":"Brain-Tech","description":"Enterprise-grade technology agency offering custom software development, IT and cloud solutions, digital marketing, and professional video editing.","url":"https://brain-tech.com/","email":"hello@brain-tech.com","telephone":"+1-415-555-0148","priceRange":"$$$","areaServed":"Worldwide","slogan":"Think. Build. Evolve.","foundingDate":"2014","knowsAbout":["custom software development","web and mobile applications","cloud infrastructure","DevOps","IT solutions","digital marketing","SEO","video editing"],"address":{"@type":"PostalAddress","streetAddress":"548 Market Street","addressLocality":"San Francisco","addressRegion":"CA","postalCode":"94104","addressCountry":"US"},"contactPoint":{"@type":"ContactPoint","telephone":"+1-415-555-0148","email":"hello@brain-tech.com","contactType":"sales","availableLanguage":["English","Arabic"]},"sameAs":["https://x.com/braintech","https://www.linkedin.com/company/braintech","https://github.com/braintech"],"makesOffer":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Custom Software Development"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"IT & Tech Solutions"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Digital Marketing"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Professional Video Editing"}}]},{"@type":"WebSite","@id":"https://brain-tech.com/#website","url":"https://brain-tech.com/","name":"Brain-Tech","publisher":{"@id":"https://brain-tech.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What services does Brain-Tech offer?","acceptedAnswer":{"@type":"Answer","text":"Brain-Tech delivers four core services under one roof: custom software development, IT and technology solutions (cloud, DevOps, integrations), digital marketing (SEO, paid media, content), and professional video editing and post-production."}},{"@type":"Question","name":"How much does a typical project cost?","acceptedAnswer":{"@type":"Answer","text":"Pricing depends on scope, complexity, and timeline. Most software projects start in the low five figures for a focused MVP; marketing and video are commonly monthly retainers. After a discovery call we provide a fixed, itemized quote."}},{"@type":"Question","name":"How long does it take to build a custom application?","acceptedAnswer":{"@type":"Answer","text":"A focused MVP typically ships in 6 to 12 weeks; larger enterprise platforms run 3 to 6 months or more. We work in weekly iterations with live demos."}},{"@type":"Question","name":"Do you work with startups as well as enterprises?","acceptedAnswer":{"@type":"Answer","text":"Yes. We support early-stage startups and established enterprises modernizing legacy systems, scaling our process to the engagement."}},{"@type":"Question","name":"What happens after a project launches?","acceptedAnswer":{"@type":"Answer","text":"Every engagement includes a support and maintenance plan with dedicated channels, defined SLAs, monitoring, and ongoing optimization."}},{"@type":"Question","name":"How do we get started?","acceptedAnswer":{"@type":"Answer","text":"Click Get a Quote or email hello@brain-tech.com. We respond within one business day to schedule a discovery call and follow with a clear proposal."}}]}]}
+</script>
+</helmet>
+
+<div id="bt-root" data-bt-theme="{{ theme }}" dir="{{ dir }}" lang="{{ lang }}" style="background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;position:relative;transition:background .3s ease,color .3s ease;">
+
+  <!-- ===== NAVBAR ===== -->
+  <header style="position:fixed;top:0;left:0;right:0;z-index:100;">
+    <nav aria-label="Primary" style="{{ navStyle }}transition:background .35s ease,border-color .35s ease,backdrop-filter .35s;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 28px;height:72px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;">
+        <a href="#" onClick="{{ navHome }}" style="display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--fg);justify-self:start;">
+          <span style="width:38px;height:38px;border-radius:10px;background:#0c0c11;border:1px solid rgba(255,255,255,0.1);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(var(--accRGB),0.3);">
+            <img src="brand/mark.png" alt="Brain-Tech logo" style="width:23px;height:auto;display:block;" />
+          </span>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.01em;">Brain<span style="color:var(--acc);">Tech</span></span>
+        </a>
+        <ul class="bt-desktop-nav" style="display:flex;gap:32px;list-style:none;margin:0;padding:0;justify-self:center;">
+          <sc-for list="{{ navLinks }}" as="lnk" hint-placeholder-count="5">
+            <li><a href="#" onClick="{{ lnk.on }}" style="color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;transition:color .2s;" style-hover="color:var(--fg);">{{ lnk.label }}</a></li>
+          </sc-for>
+        </ul>
+        <div style="justify-self:end;display:flex;align-items:center;gap:8px;">
+          <button onClick="{{ toggleLang }}" aria-label="Switch language" style="display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:42px;padding:0 12px;border-radius:11px;background:var(--panel2);border:1px solid var(--border);cursor:pointer;color:var(--fg);font-size:13px;font-weight:600;font-family:inherit;transition:border-color .2s;" style-hover="border-color:var(--border2);">{{ langBtnLabel }}</button>
+          <button onClick="{{ toggleTheme }}" aria-label="Toggle color theme" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:11px;background:var(--panel2);border:1px solid var(--border);cursor:pointer;color:var(--fg);transition:border-color .2s;" style-hover="border-color:var(--border2);">{{ themeIcon }}</button>
+          <sc-if value="{{ vshow.nav_quote }}" hint-placeholder-val="{{ true }}">
+          <a href="#" onClick="{{ navContact }}" class="bt-cta-desktop" style="display:inline-flex;align-items:center;gap:8px;background:var(--g);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 18px;border-radius:11px;box-shadow:0 6px 22px rgba(var(--accRGB),0.35);transition:transform .2s,box-shadow .2s;" style-hover="transform:translateY(-2px);box-shadow:0 10px 30px rgba(var(--accRGB),0.5);">{{ t.nav.quote }}</a>
+          </sc-if>
+          <button class="bt-burger" onClick="{{ toggleMenu }}" aria-label="Toggle navigation menu" aria-expanded="{{ menuOpen }}" style="display:none;align-items:center;justify-content:center;width:42px;height:42px;border-radius:11px;background:var(--panel2);border:1px solid var(--border);cursor:pointer;color:var(--fg);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="bt-mobile-panel" style="{{ mobilePanelStyle }}overflow:hidden;transition:max-height .4s ease,opacity .3s ease;background:var(--bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);">
+        <ul style="list-style:none;margin:0;padding:14px 28px 22px;display:flex;flex-direction:column;gap:4px;">
+          <sc-for list="{{ navLinks }}" as="lnk" hint-placeholder-count="5">
+            <li><a href="#" onClick="{{ lnk.on }}" style="display:block;padding:12px 6px;color:var(--fg);text-decoration:none;font-size:16px;font-weight:500;border-bottom:1px solid var(--border);">{{ lnk.label }}</a></li>
+          </sc-for>
+          <sc-if value="{{ vshow.nav_quote }}" hint-placeholder-val="{{ true }}">
+          <li style="margin-top:12px;"><a href="#" onClick="{{ navContact }}" style="display:block;text-align:center;background:var(--g);color:#fff;text-decoration:none;font-size:15px;font-weight:600;padding:13px;border-radius:12px;">{{ t.nav.quote }}</a></li>
+          </sc-if>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- =================== HOME =================== -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div>
+    <!-- HERO -->
+    <sc-if value="{{ vsec.hero }}" hint-placeholder-val="{{ true }}">
+    <section class="bt-hero" aria-label="Hero" style="position:relative;padding:172px 28px 110px;overflow:hidden;">
+      <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px;animation:bt-grid 9s linear infinite;-webkit-mask-image:radial-gradient(ellipse 80% 65% at 50% 35%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 80% 65% at 50% 35%,#000 0%,transparent 75%);"></div>
+      <div aria-hidden="true" style="position:absolute;top:-140px;left:50%;transform:translateX(-50%);width:680px;height:520px;background:radial-gradient(circle,rgba(var(--accRGB),0.28),transparent 65%);filter:blur(20px);animation:bt-float 12s ease-in-out infinite;"></div>
+      <div aria-hidden="true" style="position:absolute;top:40px;right:8%;width:420px;height:420px;background:radial-gradient(circle,rgba(var(--accRGB),0.20),transparent 65%);filter:blur(30px);animation:bt-float2 14s ease-in-out infinite;"></div>
+      <div style="position:relative;max-width:920px;margin:0 auto;text-align:center;">
+        <sc-if value="{{ vshow.hero_badge }}" hint-placeholder-val="{{ true }}">
+        <div data-reveal style="display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);font-size:13px;color:var(--muted);margin-bottom:30px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--ic);box-shadow:0 0 10px var(--ic);"></span>
+          {{ t.hero.badge }}
+        </div>
+        </sc-if>
+        <h1 data-reveal="clip" style="transition-delay:.07s;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(40px,6.4vw,76px);line-height:1.04;letter-spacing:-0.025em;margin:0 0 22px;text-wrap:balance;">
+          {{ t.hero.h1pre }}<span style="background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ t.hero.h1hi }}</span>{{ t.hero.h1post }}
+        </h1>
+        <p data-reveal style="transition-delay:.14s;font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--muted);max-width:620px;margin:0 auto 40px;text-wrap:pretty;">{{ t.hero.sub }}</p>
+        <div class="bt-hero-ctas" data-reveal style="transition-delay:.21s;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <a href="#" onClick="{{ navContact }}" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--g);color:#fff;text-decoration:none;font-size:16px;font-weight:600;padding:16px 30px;border-radius:13px;box-shadow:0 10px 34px rgba(var(--accRGB),0.4);transition:transform .2s,box-shadow .2s;" style-hover="transform:translateY(-3px);box-shadow:0 16px 44px rgba(var(--accRGB),0.55);">{{ t.hero.cta1 }}
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#" onClick="{{ navWork }}" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--panel2);color:var(--fg);text-decoration:none;font-size:16px;font-weight:600;padding:16px 28px;border-radius:13px;border:1px solid var(--border2);transition:transform .2s,background .2s;" style-hover="transform:translateY(-3px);">{{ t.hero.cta2 }}</a>
+        </div>
+      </div>
+    </section>
+
+    </sc-if>
+    <!-- TRUST BAR -->
+    <sc-if value="{{ vsec.trust }}" hint-placeholder-val="{{ true }}">
+    <section aria-label="Trusted by" style="padding:18px 28px 64px;">
+      <div data-reveal style="max-width:1080px;margin:0 auto;text-align:center;">
+        <p style="font-size:12.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--faint);margin:0 0 28px;font-weight:600;">{{ t.trust.label }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:18px 48px;align-items:center;justify-content:center;opacity:0.72;">
+          <sc-for list="{{ logos }}" as="logo" hint-placeholder-count="5">
+            <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;color:var(--muted);letter-spacing:-0.01em;">{{ logo }}</span>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    </sc-if>
+    <!-- SERVICES -->
+    <sc-if value="{{ vsec.services }}" hint-placeholder-val="{{ true }}">
+    <section id="services" style="padding:80px 28px;scroll-margin-top:90px;">
+      <div style="max-width:1240px;margin:0 auto;">
+        <div data-reveal style="max-width:680px;margin-bottom:54px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.servicesSec.eyebrow }}</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-0.02em;margin:0 0 16px;">{{ t.servicesSec.title }}</h2>
+          <p style="font-size:17px;line-height:1.6;color:var(--muted);margin:0;">{{ t.servicesSec.sub }}</p>
+        </div>
+        <div class="bt-stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:20px;">
+          <sc-for list="{{ services }}" as="s" hint-placeholder-count="4">
+            <article data-reveal="scale" style="position:relative;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:30px 28px;backdrop-filter:blur(12px);display:flex;flex-direction:column;overflow:hidden;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .7s ease,border-color .3s ease,background .3s ease;transition-delay:{{ s.rd }};" style-hover="transform:translateY(-6px);border-color:var(--border2);background:var(--panel2);">
+              <sc-if value="{{ s.offer.has }}" hint-placeholder-val="{{ false }}">
+                <span style="position:absolute;top:0;inset-inline-end:0;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;background:var(--g);color:#06281a;font-size:10.5px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:6px 14px;border-radius:0 20px 0 14px;box-shadow:0 4px 16px rgba(var(--accRGB),0.45);">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4L11 3.8a2 2 0 0 0-1.4-.6H4v5.6a2 2 0 0 0 .6 1.4l9.6 9.6a2 2 0 0 0 2.8 0l3.6-3.6a2 2 0 0 0 0-2.8z"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor"/></svg>
+                  {{ s.offer.label }}
+                </span>
+              </sc-if>
+              <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(var(--accRGB),0.22),rgba(var(--accRGB),0.10));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:22px;color:var(--ic);">{{ s.icon }}</div>
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;margin:0 0 10px;letter-spacing:-0.01em;">{{ s.title }}</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0 0 22px;flex:1;">{{ s.desc }}</p>
+              <sc-if value="{{ s.offer.has }}" hint-placeholder-val="{{ false }}">
+                <div style="position:relative;border-radius:14px;padding:16px 16px 15px;margin:0 0 20px;background:linear-gradient(135deg,rgba(var(--accRGB),0.14),rgba(var(--accRGB),0.05));border:1px solid rgba(var(--accRGB),0.35);overflow:hidden;">
+                  <div aria-hidden="true" style="position:absolute;inset-block:0;inset-inline-start:0;width:4px;background:var(--g);"></div>
+                  <div aria-hidden="true" style="position:absolute;top:50%;inset-inline-start:-7px;width:14px;height:14px;border-radius:50%;background:var(--panel);border:1px solid rgba(var(--accRGB),0.35);transform:translateY(-50%);"></div>
+                  <div aria-hidden="true" style="position:absolute;top:50%;inset-inline-end:-7px;width:14px;height:14px;border-radius:50%;background:var(--panel);border:1px solid rgba(var(--accRGB),0.35);transform:translateY(-50%);"></div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                    <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:var(--g);color:#06281a;flex:none;">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><circle cx="8" cy="8" r="1.6"/><circle cx="16" cy="16" r="1.6"/></svg>
+                    </span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--fg);letter-spacing:-0.01em;">{{ s.offer.title }}</span>
+                  </div>
+                  <div style="font-size:12.5px;color:var(--muted);line-height:1.55;">{{ s.offer.text }}</div>
+                  <sc-if value="{{ s.offer.until }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:11px;font-weight:700;color:#06281a;background:var(--g);padding:3px 9px;border-radius:99px;">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                      {{ s.offer.until }}
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-if>
+              <a href="#" onClick="{{ navContact }}" style="display:inline-flex;align-items:center;gap:7px;color:var(--acc);text-decoration:none;font-size:14px;font-weight:600;transition:gap .2s;" style-hover="gap:11px;">{{ t.servicesSec.learnMore }}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    </sc-if>
+    <!-- WHY US -->
+    <sc-if value="{{ vsec.values }}" hint-placeholder-val="{{ true }}">
+    <section id="about" style="padding:80px 28px;scroll-margin-top:90px;">
+      <div style="max-width:1240px;margin:0 auto;">
+        <div data-reveal style="text-align:center;max-width:640px;margin:0 auto 54px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.valuesSec.eyebrow }}</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-0.02em;margin:0;">{{ t.valuesSec.title }}</h2>
+        </div>
+        <div class="bt-stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:20px;">
+          <sc-for list="{{ values }}" as="v" hint-placeholder-count="4">
+            <div data-reveal style="padding:8px 4px;">
+              <div style="width:46px;height:46px;border-radius:12px;background:var(--panel2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:18px;color:var(--ic);">{{ v.icon }}</div>
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin:0 0 9px;">{{ v.title }}</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0;">{{ v.desc }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    </sc-if>
+    <!-- PROCESS -->
+    <sc-if value="{{ vsec.process }}" hint-placeholder-val="{{ true }}">
+    <section id="process" style="padding:80px 28px;scroll-margin-top:90px;">
+      <div style="max-width:1240px;margin:0 auto;">
+        <div data-reveal style="text-align:center;max-width:640px;margin:0 auto 60px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.processSec.eyebrow }}</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-0.02em;margin:0;">{{ t.processSec.title }}</h2>
+        </div>
+        <div class="bt-process-row bt-stagger" style="display:flex;gap:0;align-items:flex-start;">
+          <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+            <div data-reveal style="flex:1;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 14px;">
+              <div class="bt-proc-line" style="{{ st.lineStyle }}position:absolute;top:26px;left:50%;width:100%;height:1px;background:linear-gradient(90deg,var(--acc),transparent);z-index:0;opacity:.4;"></div>
+              <div style="position:relative;z-index:1;width:54px;height:54px;border-radius:50%;background:var(--bg);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;background-image:linear-gradient(135deg,rgba(var(--accRGB),0.18),rgba(var(--accRGB),0.18));margin-bottom:20px;">{{ st.num }}</div>
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;margin:0 0 9px;">{{ st.title }}</h3>
+              <p style="font-size:14px;line-height:1.6;color:var(--muted);margin:0;max-width:220px;">{{ st.desc }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    </sc-if>
+    <!-- PORTFOLIO -->
+    <sc-if value="{{ vsec.work }}" hint-placeholder-val="{{ true }}">
+    <section id="work" style="padding:80px 28px;scroll-margin-top:90px;">
+      <div style="max-width:1240px;margin:0 auto;">
+        <div data-reveal style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px;margin-bottom:50px;">
+          <div style="max-width:560px;">
+            <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.workSec.eyebrow }}</p>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-0.02em;margin:0;">{{ t.workSec.title }}</h2>
+          </div>
+          <a href="#" onClick="{{ navContact }}" style="color:var(--acc);text-decoration:none;font-size:14.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;">{{ t.workSec.startYours }}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="bt-stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;">
+          <sc-for list="{{ projects }}" as="p" hint-placeholder-count="0">
+            <a href="#" onClick="{{ p.open }}" data-reveal="rise" style="text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--border);border-radius:20px;overflow:hidden;display:block;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .7s ease,border-color .3s ease;transition-delay:{{ p.rd }};" style-hover="transform:translateY(-6px);border-color:var(--border2);">
+              <div style="height:210px;overflow:hidden;position:relative;background:var(--panel2);">
+                <div role="img" aria-label="{{ p.alt }}" style="{{ p.bgStyle }}position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.4,0,.2,1);" style-hover="transform:scale(1.06);"></div>
+                <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,11,0) 40%,rgba(8,8,11,0.55) 100%);pointer-events:none;"></div>
+              </div>
+              <div style="padding:24px 24px 26px;">
+                <span style="display:inline-block;font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--acc);font-weight:600;background:rgba(var(--accRGB),0.12);padding:4px 10px;border-radius:999px;margin-bottom:14px;">{{ p.tag }}</span>
+                <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;margin:0 0 16px;letter-spacing:-0.01em;">{{ p.name }}</h3>
+                <div style="display:flex;align-items:baseline;gap:8px;border-top:1px solid var(--border);padding-top:16px;">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:26px;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ p.metric }}</span>
+                  <span style="font-size:13px;color:var(--muted);">{{ p.metricLabel }}</span>
+                </div>
+              </div>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    </sc-if>
+    <!-- STATS -->
+    <sc-if value="{{ vsec.stats }}" hint-placeholder-val="{{ true }}">
+    <section id="stats-band" aria-label="Key statistics" style="padding:60px 28px;">
+      <div data-reveal="scale" style="max-width:1160px;margin:0 auto;background:linear-gradient(135deg,rgba(var(--accRGB),0.1),rgba(var(--accRGB),0.08));border:1px solid var(--border);border-radius:24px;padding:54px 32px;backdrop-filter:blur(12px);">
+        <div class="bt-stats-row bt-stagger" style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;">
+          <sc-for list="{{ stats }}" as="stat" hint-placeholder-count="4">
+            <div data-reveal>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(36px,5vw,54px);line-height:1;letter-spacing:-0.02em;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px;">{{ stat.display }}</div>
+              <div style="font-size:14px;color:var(--muted);font-weight:500;">{{ stat.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    </sc-if>
+    <!-- TESTIMONIALS -->
+    <sc-if value="{{ vsec.testimonials }}" hint-placeholder-val="{{ true }}">
+    <section aria-label="Testimonials" style="padding:80px 28px;">
+      <div style="max-width:920px;margin:0 auto;">
+        <div data-reveal style="text-align:center;margin-bottom:46px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.testSec.eyebrow }}</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-0.02em;margin:0;">{{ t.testSec.title }}</h2>
+        </div>
+        <div data-reveal="scale" style="position:relative;background:var(--panel);border:1px solid var(--border);border-radius:24px;overflow:hidden;backdrop-filter:blur(12px);">
+          <div style="overflow:hidden;direction:ltr;">
+            <div style="{{ trackStyle }}">
+              <sc-for list="{{ testimonials }}" as="tm" hint-placeholder-count="4">
+                <div dir="{{ dir }}" style="flex:0 0 100%;padding:48px 52px;box-sizing:border-box;text-align:center;">
+                  <div aria-hidden="true" style="font-family:'Space Grotesk',sans-serif;font-size:44px;line-height:0.5;color:var(--acc);height:24px;">&ldquo;</div>
+                  <p style="font-size:clamp(18px,2.4vw,23px);line-height:1.55;font-weight:500;margin:0 auto 28px;max-width:660px;color:var(--fg);text-wrap:pretty;">{{ tm.quote }}</p>
+                  <div style="display:flex;align-items:center;justify-content:center;gap:13px;">
+                    <div aria-hidden="true" style="width:44px;height:44px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:#fff;">{{ tm.initials }}</div>
+                    <div style="text-align:start;">
+                      <div style="font-weight:600;font-size:15px;">{{ tm.name }}</div>
+                      <div style="font-size:13px;color:var(--muted);">{{ tm.role }}</div>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <button onClick="{{ prevSlide }}" aria-label="Previous testimonial" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:var(--panel2);border:1px solid var(--border);color:var(--fg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button onClick="{{ nextSlide }}" aria-label="Next testimonial" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:var(--panel2);border:1px solid var(--border);color:var(--fg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div style="display:flex;justify-content:center;gap:9px;margin-top:26px;">
+          <sc-for list="{{ dots }}" as="d" hint-placeholder-count="4">
+            <button onClick="{{ d.go }}" aria-label="{{ d.label }}" style="{{ d.style }}border:none;cursor:pointer;padding:0;height:8px;border-radius:999px;transition:width .3s,background .3s;"></button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    </sc-if>
+    <!-- FAQ -->
+    <sc-if value="{{ vsec.faq }}" hint-placeholder-val="{{ true }}">
+    <section aria-label="Frequently asked questions" style="padding:80px 28px;">
+      <div style="max-width:820px;margin:0 auto;">
+        <div data-reveal style="text-align:center;margin-bottom:46px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.faqSec.eyebrow }}</p>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-0.02em;margin:0;">{{ t.faqSec.title }}</h2>
+        </div>
+        <div class="bt-stagger" style="display:flex;flex-direction:column;gap:12px;">
+          <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+            <div data-reveal style="background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;">
+              <button onClick="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 24px;background:transparent;border:none;cursor:pointer;text-align:start;color:var(--fg);font-family:inherit;">
+                <span style="font-weight:600;font-size:16.5px;">{{ f.q }}</span>
+                <span style="{{ f.iconStyle }}flex:none;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--panel2);border:1px solid var(--border);transition:transform .3s ease;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </span>
+              </button>
+              <div style="{{ f.panelStyle }}">
+                <p style="margin:0;padding:0 24px 24px;font-size:15px;line-height:1.65;color:var(--muted);text-wrap:pretty;">{{ f.a }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- =================== WORK DETAIL =================== -->
+    <sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+    <article style="padding:118px 28px 40px;">
+      <div style="max-width:980px;margin:0 auto;">
+        <a href="#" onClick="{{ navWork }}" data-reveal style="display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:600;margin-bottom:34px;transition:color .2s;" style-hover="color:var(--fg);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          {{ t.detail.back }}
+        </a>
+        <div data-reveal style="margin-bottom:28px;">
+          <span style="display:inline-block;font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--acc);font-weight:600;background:rgba(var(--accRGB),0.12);padding:4px 10px;border-radius:999px;margin-bottom:18px;">{{ work.tag }}</span>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,5vw,56px);line-height:1.06;letter-spacing:-0.02em;margin:0;text-wrap:balance;">{{ work.name }}</h1>
+        </div>
+        <div data-reveal="scale" style="border-radius:22px;overflow:hidden;border:1px solid var(--border);margin-bottom:34px;aspect-ratio:16/8;background:var(--panel2);">
+          <div role="img" aria-label="{{ work.alt }}" style="{{ work.bgStyle }}width:100%;height:100%;background-size:cover;background-position:center;"></div>
+        </div>
+        <div class="bt-detail-meta" data-reveal style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:24px;background:var(--panel);border:1px solid var(--border);border-radius:18px;margin-bottom:46px;">
+          <div><div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ t.detail.clientL }}</div><div style="font-weight:600;font-size:15px;">{{ work.client }}</div></div>
+          <div><div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ t.detail.yearL }}</div><div style="font-weight:600;font-size:15px;">{{ work.year }}</div></div>
+          <div><div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ t.detail.categoryL }}</div><div style="font-weight:600;font-size:15px;">{{ work.tag }}</div></div>
+          <div><div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ t.detail.headlineMetricL }}</div><div style="font-weight:700;font-size:15px;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ work.metric }}</div></div>
+        </div>
+        <div data-reveal style="max-width:760px;margin-bottom:48px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.detail.overview }}</p>
+          <p style="font-size:clamp(18px,2.3vw,22px);line-height:1.55;font-weight:500;margin:0;text-wrap:pretty;">{{ work.summary }}</p>
+        </div>
+        <div class="bt-detail-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:48px;">
+          <div data-reveal="left" style="background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:30px;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;margin:0 0 14px;">{{ t.detail.challengeH }}</h2>
+            <p style="font-size:15px;line-height:1.7;color:var(--muted);margin:0;text-wrap:pretty;">{{ work.challenge }}</p>
+          </div>
+          <div data-reveal="right" style="background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:30px;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;margin:0 0 14px;">{{ t.detail.approachH }}</h2>
+            <p style="font-size:15px;line-height:1.7;color:var(--muted);margin:0;text-wrap:pretty;">{{ work.approach }}</p>
+          </div>
+        </div>
+        <div data-reveal style="margin-bottom:30px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 20px;">{{ t.detail.resultsH }}</p>
+          <div class="bt-stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;">
+            <sc-for list="{{ work.results }}" as="r" hint-placeholder-count="3">
+              <div data-reveal style="background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:28px;text-align:center;">
+                <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4vw,42px);line-height:1;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px;">{{ r.metric }}</div>
+                <div style="font-size:14px;color:var(--muted);">{{ r.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div data-reveal style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:56px;align-items:center;">
+          <span style="font-size:13px;color:var(--faint);font-weight:600;margin-inline-end:6px;">{{ t.detail.servicesL }}:</span>
+          <sc-for list="{{ work.servicesUsed }}" as="su" hint-placeholder-count="3">
+            <span style="font-size:13px;color:var(--muted);background:var(--panel2);border:1px solid var(--border);padding:6px 13px;border-radius:999px;">{{ su }}</span>
+          </sc-for>
+        </div>
+        <!-- next + cta -->
+        <div data-reveal style="display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:34px;">
+          <a href="#" onClick="{{ work.next.open }}" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:5px;">
+            <span style="font-size:12.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);">{{ t.detail.nextL }}</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;display:inline-flex;align-items:center;gap:8px;">{{ work.next.name }}
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+          <a href="#" onClick="{{ navContact }}" style="display:inline-flex;align-items:center;gap:9px;background:var(--g);color:#fff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 26px;border-radius:13px;box-shadow:0 10px 30px rgba(var(--accRGB),0.4);transition:transform .2s;" style-hover="transform:translateY(-3px);">{{ t.detail.ctaBtn }}</a>
+        </div>
+      </div>
+    </article>
+    </sc-if>
+
+    <!-- =================== ABOUT PAGE =================== -->
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+    <article style="padding:120px 28px 30px;">
+      <div style="max-width:960px;margin:0 auto;">
+        <div data-reveal style="text-align:center;max-width:760px;margin:0 auto 56px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.aboutPage.eyebrow }}</p>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(34px,5vw,58px);line-height:1.06;letter-spacing:-0.02em;margin:0 0 20px;text-wrap:balance;">{{ t.aboutPage.title }}</h1>
+          <p style="font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--muted);margin:0;text-wrap:pretty;">{{ t.aboutPage.lead }}</p>
+        </div>
+        <div class="bt-detail-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:14px;">
+          <div data-reveal="left" style="background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:32px;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;margin:0 0 14px;">{{ t.aboutPage.storyTitle }}</h2>
+            <p style="font-size:15px;line-height:1.7;color:var(--muted);margin:0 0 16px;text-wrap:pretty;">{{ t.aboutPage.story1 }}</p>
+            <p style="font-size:15px;line-height:1.7;color:var(--muted);margin:0;text-wrap:pretty;">{{ t.aboutPage.story2 }}</p>
+          </div>
+          <div data-reveal="right" style="background:linear-gradient(135deg,rgba(var(--accRGB),0.12),rgba(var(--accRGB),0.06));border:1px solid var(--border);border-radius:18px;padding:32px;display:flex;flex-direction:column;justify-content:center;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;margin:0 0 14px;">{{ t.aboutPage.missionTitle }}</h2>
+            <p style="font-size:clamp(17px,2vw,21px);line-height:1.55;font-weight:500;margin:0;text-wrap:pretty;">{{ t.aboutPage.mission }}</p>
+          </div>
+        </div>
+        <div style="margin:50px 0 10px;">
+          <h2 data-reveal style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,3vw,34px);letter-spacing:-0.02em;margin:0 0 30px;text-align:center;">{{ t.aboutPage.valuesTitle }}</h2>
+          <div class="bt-stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
+            <sc-for list="{{ values }}" as="v" hint-placeholder-count="4">
+              <div data-reveal style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:26px;">
+                <div style="width:46px;height:46px;border-radius:12px;background:var(--panel2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:18px;color:var(--ic);">{{ v.icon }}</div>
+                <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin:0 0 9px;">{{ v.title }}</h3>
+                <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0;">{{ v.desc }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div id="stats-band" style="margin-top:46px;">
+          <div data-reveal="scale" style="background:linear-gradient(135deg,rgba(var(--accRGB),0.1),rgba(var(--accRGB),0.06));border:1px solid var(--border);border-radius:24px;padding:48px 32px;">
+            <div class="bt-stats-row bt-stagger" style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;">
+              <sc-for list="{{ stats }}" as="stat" hint-placeholder-count="4">
+                <div data-reveal>
+                  <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,5vw,50px);line-height:1;letter-spacing:-0.02em;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px;">{{ stat.display }}</div>
+                  <div style="font-size:14px;color:var(--muted);font-weight:500;">{{ stat.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    </sc-if>
+
+    <!-- =================== SERVICES PAGE =================== -->
+    <sc-if value="{{ isServices }}" hint-placeholder-val="{{ false }}">
+    <article style="padding:120px 28px 30px;">
+      <div style="max-width:1000px;margin:0 auto;">
+        <div data-reveal style="text-align:center;max-width:720px;margin:0 auto 54px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.servicesPage.eyebrow }}</p>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(34px,5vw,58px);line-height:1.06;letter-spacing:-0.02em;margin:0 0 20px;text-wrap:balance;">{{ t.servicesPage.title }}</h1>
+          <p style="font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--muted);margin:0;text-wrap:pretty;">{{ t.servicesPage.lead }}</p>
+        </div>
+        <div class="bt-stagger" style="display:flex;flex-direction:column;gap:22px;">
+          <sc-for list="{{ serviceDetails }}" as="sd" hint-placeholder-count="4">
+            <div data-reveal style="background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:34px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;">
+              <div style="width:58px;height:58px;border-radius:15px;background:linear-gradient(135deg,rgba(var(--accRGB),0.22),rgba(var(--accRGB),0.18));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ic);">{{ sd.icon }}</div>
+              <div>
+                <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;margin:0 0 6px;letter-spacing:-0.01em;">{{ sd.title }}</h2>
+                <p style="color:var(--acc);font-weight:600;font-size:15px;margin:0 0 14px;">{{ sd.tagline }}</p>
+                <p style="font-size:15px;line-height:1.7;color:var(--muted);margin:0 0 22px;max-width:640px;text-wrap:pretty;">{{ sd.longDesc }}</p>
+                <sc-if value="{{ sd.offer.has }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:16px 22px;border-radius:16px;padding:18px 22px;margin:0 0 24px;max-width:640px;background:linear-gradient(135deg,rgba(var(--accRGB),0.15),rgba(var(--accRGB),0.05));border:1px solid rgba(var(--accRGB),0.4);overflow:hidden;">
+                    <div aria-hidden="true" style="position:absolute;inset-block:0;inset-inline-start:0;width:4px;background:var(--g);"></div>
+                    <div style="display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:12px;background:var(--g);color:#06281a;flex:none;box-shadow:0 6px 18px rgba(var(--accRGB),0.4);">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><circle cx="8" cy="8" r="1.7"/><circle cx="16" cy="16" r="1.7"/></svg>
+                    </div>
+                    <div style="flex:1;min-width:180px;">
+                      <div style="display:flex;align-items:center;gap:9px;margin-bottom:3px;flex-wrap:wrap;">
+                        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--fg);letter-spacing:-0.01em;">{{ sd.offer.title }}</span>
+                        <span style="font-size:10px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#06281a;background:var(--g);padding:3px 9px;border-radius:99px;">{{ sd.offer.label }}</span>
+                      </div>
+                      <div style="font-size:13.5px;color:var(--muted);line-height:1.55;">{{ sd.offer.text }}</div>
+                    </div>
+                    <sc-if value="{{ sd.offer.until }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--acc);white-space:nowrap;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                        {{ sd.offer.until }}
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-if>
+                <p style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 14px;">{{ t.servicesPage.deliverablesL }}</p>
+                <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px 24px;">
+                  <sc-for list="{{ sd.deliverables }}" as="d" hint-placeholder-count="5">
+                    <li style="display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--fg);">
+                      <span style="flex:none;width:19px;height:19px;border-radius:50%;background:rgba(var(--accRGB),0.16);color:var(--acc);display:inline-flex;align-items:center;justify-content:center;">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                      {{ d }}
+                    </li>
+                  </sc-for>
+                </ul>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </article>
+    </sc-if>
+
+    <!-- =================== CONTACT PAGE =================== -->
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <article style="padding:120px 28px 60px;">
+      <div style="max-width:1040px;margin:0 auto;">
+        <div data-reveal style="max-width:680px;margin:0 0 48px;">
+          <p style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);font-weight:600;margin:0 0 14px;">{{ t.contactPage.eyebrow }}</p>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(34px,5vw,58px);line-height:1.06;letter-spacing:-0.02em;margin:0 0 20px;text-wrap:balance;">{{ t.contactPage.title }}</h1>
+          <p style="font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--muted);margin:0;text-wrap:pretty;">{{ t.contactPage.lead }}</p>
+        </div>
+        <div class="bt-detail-grid" style="display:grid;grid-template-columns:1.15fr 0.85fr;gap:30px;align-items:start;">
+          <form data-reveal="left" onSubmit="{{ onContactSubmit }}" style="background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:32px;">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;margin:0 0 22px;">{{ t.contactPage.formTitle }}</h2>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <label for="ct-name" style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:8px;display:block;">{{ t.contactPage.fName }}</label>
+                <input id="ct-name" type="text" required style="width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:13px 15px;color:var(--fg);font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;" style-focus="border-color:var(--acc);" />
+              </div>
+              <div>
+                <label for="ct-email" style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:8px;display:block;">{{ t.contactPage.fEmail }}</label>
+                <input id="ct-email" type="email" required style="width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:13px 15px;color:var(--fg);font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;" style-focus="border-color:var(--acc);" />
+              </div>
+              <div>
+                <label for="ct-company" style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:8px;display:block;">{{ t.contactPage.fCompany }}</label>
+                <input id="ct-company" type="text" style="width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:13px 15px;color:var(--fg);font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;" style-focus="border-color:var(--acc);" />
+              </div>
+              <div>
+                <label for="ct-service" style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:8px;display:block;">{{ t.contactPage.fService }}</label>
+                <select id="ct-service" style="width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:13px 15px;color:var(--fg);font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;" style-focus="border-color:var(--acc);">
+                  <sc-for list="{{ serviceOptions }}" as="opt" hint-placeholder-count="5">
+                    <option style="background:#0c0c11;color:#f5f5f7;">{{ opt }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div>
+                <label for="ct-msg" style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:8px;display:block;">{{ t.contactPage.fMessage }}</label>
+                <textarea id="ct-msg" rows="4" required style="width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:13px 15px;color:var(--fg);font-size:15px;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s;" style-focus="border-color:var(--acc);"></textarea>
+              </div>
+              <button type="submit" style="background:var(--g);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 8px 26px rgba(var(--accRGB),0.35);transition:transform .2s;" style-hover="transform:translateY(-2px);">{{ t.contactPage.submit }}</button>
+              <sc-if value="{{ contactSent }}" hint-placeholder-val="{{ false }}">
+                <p role="status" style="margin:4px 0 0;padding:14px 16px;border-radius:12px;background:rgba(var(--accRGB),0.12);border:1px solid rgba(var(--accRGB),0.4);color:var(--fg);font-size:14px;line-height:1.55;">{{ t.contactPage.sent }}</p>
+              </sc-if>
+            </div>
+          </form>
+          <div data-reveal="right" style="display:flex;flex-direction:column;gap:14px;">
+            <a href="mailto:hello@brain-tech.com" style="text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;transition:border-color .2s;" style-hover="border-color:var(--border2);">
+              <div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ t.contactPage.emailL }}</div>
+              <div style="font-weight:600;font-size:16px;color:var(--acc);">hello@brain-tech.com</div>
+            </a>
+            <a href="tel:+14155550148" style="text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;transition:border-color .2s;" style-hover="border-color:var(--border2);">
+              <div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ t.contactPage.phoneL }}</div>
+              <div style="font-weight:600;font-size:16px;">+1 (415) 555-0148</div>
+            </a>
+            <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;">
+              <div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ t.contactPage.officeL }}</div>
+              <div style="font-weight:600;font-size:15px;line-height:1.5;">{{ t.contactPage.office }}</div>
+              <div style="font-size:13px;color:var(--muted);margin-top:6px;">{{ t.contactPage.hours }}</div>
+            </div>
+            <div style="background:linear-gradient(135deg,rgba(var(--accRGB),0.12),rgba(var(--accRGB),0.06));border:1px solid var(--border);border-radius:16px;padding:22px;">
+              <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin:0 0 8px;">{{ t.contactPage.responseTitle }}</h2>
+              <p style="font-size:14px;line-height:1.6;color:var(--muted);margin:0;text-wrap:pretty;">{{ t.contactPage.responseText }}</p>
+            </div>
+            <div style="display:flex;gap:10px;">
+              <sc-for list="{{ socials }}" as="soc" hint-placeholder-count="3">
+                <a href="#" aria-label="{{ soc.label }}" style="width:42px;height:42px;border-radius:11px;background:var(--panel2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;font-family:'Space Grotesk',sans-serif;transition:color .2s,border-color .2s;" style-hover="color:var(--fg);border-color:var(--border2);">{{ soc.short }}</a>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    </sc-if>
+
+    <!-- FINAL CTA -->
+    <sc-if value="{{ showCta }}" hint-placeholder-val="{{ true }}">
+    <section id="contact" style="padding:60px 28px 90px;scroll-margin-top:90px;">
+      <div data-reveal="scale" style="position:relative;max-width:1080px;margin:0 auto;border-radius:28px;overflow:hidden;background:var(--g);padding:clamp(48px,7vw,84px) 32px;text-align:center;">
+        <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse 70% 90% at 50% 50%,#000,transparent 75%);mask-image:radial-gradient(ellipse 70% 90% at 50% 50%,#000,transparent 75%);"></div>
+        <div style="position:relative;">
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4.6vw,50px);line-height:1.08;letter-spacing:-0.02em;margin:0 auto 18px;color:#fff;max-width:680px;text-wrap:balance;">{{ t.ctaSec.title }}</h2>
+          <p style="font-size:18px;line-height:1.55;color:rgba(255,255,255,0.82);max-width:520px;margin:0 auto 36px;">{{ t.ctaSec.sub }}</p>
+          <a href="mailto:hello@brain-tech.com" style="display:inline-flex;align-items:center;gap:10px;background:#fff;color:#1a1a2e;text-decoration:none;font-size:16px;font-weight:600;padding:17px 34px;border-radius:13px;box-shadow:0 14px 40px rgba(0,0,0,0.28);transition:transform .2s,box-shadow .2s;" style-hover="transform:translateY(-3px);box-shadow:0 20px 50px rgba(0,0,0,0.4);">{{ t.ctaSec.btn }}
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid var(--border);padding:64px 28px 36px;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <div class="bt-foot-grid" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:40px;margin-bottom:54px;align-items:start;">
+        <div>
+          <a href="#" onClick="{{ navHome }}" style="display:inline-block;text-decoration:none;margin-bottom:18px;">
+            <span style="display:inline-flex;padding:18px 22px;border-radius:16px;background:#0c0c11;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 30px rgba(0,0,0,0.3);">
+              <img src="brand/lockup.png" alt="Brain-Tech — Think. Build. Evolve." style="width:158px;height:auto;display:block;" />
+            </span>
+          </a>
+          <p style="font-size:14.5px;line-height:1.6;color:var(--muted);max-width:280px;margin:0;">{{ t.footer.tagline }}</p>
+        </div>
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 16px;">{{ t.footer.servicesH }}</h3>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
+            <sc-for list="{{ services }}" as="s" hint-placeholder-count="4">
+              <li><a href="#" onClick="{{ navServices }}" style="color:var(--muted);text-decoration:none;font-size:14.5px;transition:color .2s;" style-hover="color:var(--fg);">{{ s.title }}</a></li>
+            </sc-for>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 16px;">{{ t.footer.companyH }}</h3>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
+            <li><a href="#" onClick="{{ navAbout }}" style="color:var(--muted);text-decoration:none;font-size:14.5px;transition:color .2s;" style-hover="color:var(--fg);">{{ t.nav.about }}</a></li>
+            <li><a href="#" onClick="{{ navWork }}" style="color:var(--muted);text-decoration:none;font-size:14.5px;transition:color .2s;" style-hover="color:var(--fg);">{{ t.nav.work }}</a></li>
+            <li><a href="#" onClick="{{ navProcess }}" style="color:var(--muted);text-decoration:none;font-size:14.5px;transition:color .2s;" style-hover="color:var(--fg);">{{ t.nav.process }}</a></li>
+            <li><a href="#" onClick="{{ navContact }}" style="color:var(--muted);text-decoration:none;font-size:14.5px;transition:color .2s;" style-hover="color:var(--fg);">{{ t.nav.contact }}</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 16px;">{{ t.footer.newsletterH }}</h3>
+          <p style="font-size:14px;color:var(--muted);margin:0 0 14px;line-height:1.55;">{{ t.footer.newsletterP }}</p>
+          <form onSubmit="{{ onSubscribe }}" style="display:flex;gap:8px;max-width:320px;">
+            <input type="email" required aria-label="Email address" placeholder="{{ t.footer.placeholder }}" style="flex:1;min-width:0;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:11px 14px;color:var(--fg);font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;" style-focus="border-color:var(--acc);" />
+            <button type="submit" aria-label="Subscribe" style="flex:none;background:var(--g);border:none;border-radius:11px;padding:0 16px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </form>
+          <div style="display:flex;gap:10px;margin-top:22px;">
+            <sc-for list="{{ socials }}" as="soc" hint-placeholder-count="3">
+              <a href="#" aria-label="{{ soc.label }}" style="width:38px;height:38px;border-radius:10px;background:var(--panel2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:12px;font-weight:600;font-family:'Space Grotesk',sans-serif;transition:color .2s,border-color .2s;" style-hover="color:var(--fg);border-color:var(--border2);">{{ soc.short }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div class="bt-foot-bottom" style="border-top:1px solid var(--border);padding-top:26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <p style="font-size:13px;color:var(--faint);margin:0;">{{ t.footer.rights }}</p>
+        <p style="font-size:13px;color:var(--faint);margin:0;">hello@brain-tech.com · +1 (415) 555-0148</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky WhatsApp -->
+  <sc-if value="{{ waShow }}" hint-placeholder-val="{{ false }}">
+  <a href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp" style="{{ waStyle }}width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,0.45);transition:transform .25s ease,box-shadow .25s ease;" style-hover="transform:scale(1.09);box-shadow:0 14px 34px rgba(37,211,102,0.6);">
+    <svg width="31" height="31" viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.6c1.7.9 3.6 1.4 5.6 1.4h.2c6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-4.9 1 1-4.7-.3-.4C5.6 18.4 5 16.7 5 15c0-5.5 4.5-10 10-10s10 4.5 10 10-4.5 9.8-9 9.8zm5.5-7.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.7-1.5-3.8-3.4-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6 2.9 1.2 2.9.8 3.5.8.5-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.4z"/></svg>
+  </a>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    scrolled: false,
+    menuOpen: false,
+    faqOpen: 0,
+    slide: 0,
+    counts: { projects: 0, clients: 0, years: 0, satisfaction: 0 },
+    lang: (typeof localStorage !== 'undefined' && localStorage.getItem('bt-lang')) || 'en',
+    theme: (typeof localStorage !== 'undefined' && localStorage.getItem('bt-theme')) || 'dark',
+    route: 'home',
+    activeWork: 0,
+    contactSent: false,
+  };
+
+  PAGES = ['about', 'services', 'contact'];
+
+  META = {
+    home: ['Brain-Tech — Custom Software, IT, Marketing & Video Editing Agency', 'Enterprise-grade technology agency: custom software development, IT & cloud solutions, digital marketing, and professional video editing. One accountable team, end to end.'],
+    about: ['About Brain-Tech — Our Story, Mission & Senior Team', 'Brain-Tech is a senior team delivering software, infrastructure, marketing, and video under one roof. Learn our story, mission, and the values we hold ourselves to.'],
+    services: ['Services — Software, IT, Digital Marketing & Video | Brain-Tech', 'Explore Brain-Tech services: custom software development, IT & cloud solutions, digital marketing, and professional video editing — each with clear, measurable deliverables.'],
+    contact: ['Contact Brain-Tech — Start Your Project Today', 'Get in touch with Brain-Tech. Tell us about your project and a senior team member responds within one business day. Email hello@brain-tech.com or call +1 (415) 555-0148.'],
+  };
+
+  el(tag, props) { return React.createElement(tag, props); }
+  svgIcon(children) {
+    return React.createElement('svg', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true }, children);
+  }
+
+  icons = {
+    software: this.svgIcon([this.el('polyline', { points: '8 7 4 12 8 17', key: 1 }), this.el('polyline', { points: '16 7 20 12 16 17', key: 2 })]),
+    tech: this.svgIcon([this.el('rect', { x: 4, y: 4, width: 16, height: 5, rx: 1.5, key: 1 }), this.el('rect', { x: 4, y: 11, width: 16, height: 5, rx: 1.5, key: 2 }), this.el('circle', { cx: 7.5, cy: 6.5, r: 0.7, fill: 'currentColor', stroke: 'none', key: 3 }), this.el('circle', { cx: 7.5, cy: 13.5, r: 0.7, fill: 'currentColor', stroke: 'none', key: 4 })]),
+    marketing: this.svgIcon([this.el('line', { x1: 4, y1: 19, x2: 20, y2: 19, key: 1 }), this.el('rect', { x: 6, y: 12, width: 3, height: 4, key: 2 }), this.el('rect', { x: 11, y: 7, width: 3, height: 9, key: 3 }), this.el('rect', { x: 16, y: 14, width: 3, height: 2, key: 4 })]),
+    video: this.svgIcon([this.el('rect', { x: 4, y: 6, width: 16, height: 12, rx: 2, key: 1 }), this.el('polygon', { points: '11 10 15 12 11 14', fill: 'currentColor', stroke: 'none', key: 2 })]),
+    expertise: this.svgIcon([this.el('polygon', { points: '12 4 20 12 12 20 4 12', key: 1 })]),
+    speed: this.svgIcon([this.el('polygon', { points: '13 3 5 14 11 14 11 21 19 10 13 10 13 3', key: 1 })]),
+    results: this.svgIcon([this.el('circle', { cx: 12, cy: 12, r: 8, key: 1 }), this.el('polyline', { points: '9 12 11 14 15 9', key: 2 })]),
+    support: this.svgIcon([this.el('circle', { cx: 12, cy: 12, r: 8, key: 1 }), this.el('circle', { cx: 12, cy: 12, r: 3, key: 2 })]),
+  };
+
+  logos = ['Northwind', 'Helio', 'Quantix', 'Lumen', 'Vaulta'];
+  socials = [
+    { label: 'Brain-Tech on X', short: 'X' },
+    { label: 'Brain-Tech on LinkedIn', short: 'in' },
+    { label: 'Brain-Tech on GitHub', short: 'GH' },
+  ];
+  statTargets = { projects: 480, clients: 160, years: 12, satisfaction: 99 };
+
+  // ---- bilingual content tree; {en,ar} leaves are resolved per language ----
+  C = {
+    nav: {
+      services: { en: 'Services', ar: 'خدماتنا' },
+      work: { en: 'Work', ar: 'أعمالنا' },
+      process: { en: 'Process', ar: 'منهجيتنا' },
+      about: { en: 'About', ar: 'من نحن' },
+      contact: { en: 'Contact', ar: 'تواصل' },
+      quote: { en: 'Get a Quote', ar: 'اطلب عرض سعر' },
+    },
+    hero: {
+      badge: { en: 'Now booking projects for Q3 2026', ar: 'نستقبل الآن مشاريع الربع الثالث 2026' },
+      h1pre: { en: 'Engineering ambitious ideas into ', ar: 'نحوّل الأفكار الطموحة إلى ' },
+      h1hi: { en: 'enterprise-grade', ar: 'منتجات بمستوى المؤسسات' },
+      h1post: { en: ' products.', ar: '.' },
+      sub: { en: 'Brain-Tech is the technology partner behind high-performing software, infrastructure, marketing, and video. One team, end to end, built for scale.', ar: 'براين-تك هو شريكك التقني وراء البرمجيات والبنية التحتية والتسويق والفيديو عالي الأداء. فريق واحد، من البداية إلى النهاية، مبني للتوسّع.' },
+      cta1: { en: 'Start a Project', ar: 'ابدأ مشروعك' },
+      cta2: { en: 'See Our Work', ar: 'شاهد أعمالنا' },
+    },
+    trust: { label: { en: 'Trusted by teams shipping at scale', ar: 'موثوق من فرق تعمل على نطاق واسع' } },
+    servicesSec: {
+      eyebrow: { en: 'What we do', ar: 'ماذا نقدّم' },
+      title: { en: 'Four disciplines, one accountable team.', ar: 'أربعة تخصصات، وفريق واحد مسؤول.' },
+      sub: { en: 'From the first line of code to the final cut, we own the outcomes that move your business forward.', ar: 'من أول سطر برمجي إلى اللقطة الأخيرة، نتحمّل مسؤولية النتائج التي تدفع أعمالك للأمام.' },
+      learnMore: { en: 'Learn more', ar: 'اعرف المزيد' },
+    },
+    valuesSec: {
+      eyebrow: { en: 'Why Brain-Tech', ar: 'لماذا براين-تك' },
+      title: { en: "Built for teams that can't afford to get it wrong.", ar: 'مبنيّ لفرق لا تحتمل الخطأ.' },
+    },
+    processSec: {
+      eyebrow: { en: 'How we work', ar: 'كيف نعمل' },
+      title: { en: 'A proven path from idea to scale.', ar: 'مسار مُثبت من الفكرة إلى التوسّع.' },
+    },
+    workSec: {
+      eyebrow: { en: 'Selected work', ar: 'أعمال مختارة' },
+      title: { en: 'Outcomes our clients can measure.', ar: 'نتائج يستطيع عملاؤنا قياسها.' },
+      startYours: { en: 'Start yours', ar: 'ابدأ مشروعك' },
+    },
+    testSec: {
+      eyebrow: { en: 'What clients say', ar: 'ماذا يقول عملاؤنا' },
+      title: { en: 'Partners, not vendors.', ar: 'شركاء، لا مجرّد موردين.' },
+    },
+    faqSec: {
+      eyebrow: { en: 'Answers', ar: 'إجابات' },
+      title: { en: 'Frequently asked questions.', ar: 'الأسئلة الشائعة.' },
+    },
+    ctaSec: {
+      eyebrow: { en: 'Get in touch', ar: 'تواصل معنا' },
+      title: { en: "Let's build something worth scaling.", ar: 'لنبنِ شيئًا يستحقّ التوسّع.' },
+      sub: { en: "Tell us about your project and we'll come back within one business day with a clear path forward.", ar: 'أخبرنا عن مشروعك وسنعود إليك خلال يوم عمل واحد بمسار واضح للمضيّ قدمًا.' },
+      btn: { en: 'Get a Quote', ar: 'اطلب عرض سعر' },
+      emailL: { en: 'Email us', ar: 'راسلنا' },
+      callL: { en: 'Call us', ar: 'اتصل بنا' },
+      visitL: { en: 'Visit us', ar: 'زُرنا' },
+      visitV: { en: 'San Francisco · Dubai · Remote', ar: 'سان فرانسيسكو · دبي · عن بُعد' },
+      replyNote: { en: 'We reply within one business day.', ar: 'نردّ خلال يوم عمل واحد.' },
+      formTitle: { en: 'Start a conversation', ar: 'لنبدأ الحديث' },
+      nameL: { en: 'Full name', ar: 'الاسم الكامل' },
+      namePH: { en: 'Jane Cooper', ar: 'محمد العلي' },
+      emailFieldL: { en: 'Work email', ar: 'البريد الإلكتروني' },
+      emailPH: { en: 'jane@company.com', ar: 'name@company.com' },
+      companyL: { en: 'Company', ar: 'الشركة' },
+      companyPH: { en: 'Company name', ar: 'اسم الشركة' },
+      serviceL: { en: 'Service of interest', ar: 'الخدمة المطلوبة' },
+      budgetL: { en: 'Estimated budget', ar: 'الميزانية التقديرية' },
+      messageL: { en: 'Project details', ar: 'تفاصيل المشروع' },
+      messagePH: { en: 'A few lines about goals, scope, and timeline…', ar: 'أسطر قليلة عن الأهداف والنطاق والجدول الزمني…' },
+      submit: { en: 'Send message', ar: 'إرسال الرسالة' },
+      sending: { en: 'Sending…', ar: 'جارٍ الإرسال…' },
+      privacy: { en: "By submitting, you agree to be contacted about your enquiry. We never share your details.", ar: 'بإرسالك النموذج توافق على التواصل معك بخصوص طلبك. لا نشارك بياناتك أبدًا.' },
+      selectPH: { en: 'Select an option', ar: 'اختر خيارًا' },
+      successTitle: { en: "Thanks — message received.", ar: 'شكرًا — تم استلام رسالتك.' },
+      successBody: { en: "We've got your details and a senior specialist will be in touch within one business day.", ar: 'استلمنا بياناتك وسيتواصل معك أحد كبار المختصين خلال يوم عمل واحد.' },
+      successBtn: { en: 'Send another', ar: 'إرسال رسالة أخرى' },
+      errRequired: { en: 'This field is required', ar: 'هذا الحقل مطلوب' },
+      errEmail: { en: 'Enter a valid email address', ar: 'أدخل بريدًا إلكترونيًا صحيحًا' },
+      budgets: [
+        { en: 'Under $10k', ar: 'أقل من 10 آلاف دولار' },
+        { en: '$10k – $50k', ar: '10 – 50 ألف دولار' },
+        { en: '$50k – $100k', ar: '50 – 100 ألف دولار' },
+        { en: '$100k+', ar: 'أكثر من 100 ألف دولار' },
+      ],
+    },
+    footer: {
+      tagline: { en: 'Your end-to-end technology partner for software, infrastructure, marketing, and video.', ar: 'شريكك التقني المتكامل في البرمجيات والبنية التحتية والتسويق والفيديو.' },
+      servicesH: { en: 'Services', ar: 'الخدمات' },
+      companyH: { en: 'Company', ar: 'الشركة' },
+      newsletterH: { en: 'Stay in the loop', ar: 'ابقَ على اطّلاع' },
+      newsletterP: { en: "Occasional notes on what we're building. No noise.", ar: 'رسائل عرضية عمّا نبنيه. دون إزعاج.' },
+      placeholder: { en: 'you@company.com', ar: 'you@company.com' },
+      rights: { en: '© 2026 Brain-Tech. All rights reserved.', ar: '© 2026 براين-تك. جميع الحقوق محفوظة.' },
+    },
+    detail: {
+      back: { en: 'Back to work', ar: 'العودة للأعمال' },
+      overview: { en: 'Overview', ar: 'نظرة عامة' },
+      challengeH: { en: 'The challenge', ar: 'التحدّي' },
+      approachH: { en: 'Our approach', ar: 'منهجيتنا' },
+      resultsH: { en: 'The results', ar: 'النتائج' },
+      clientL: { en: 'Client', ar: 'العميل' },
+      yearL: { en: 'Year', ar: 'السنة' },
+      servicesL: { en: 'Services', ar: 'الخدمات' },
+      categoryL: { en: 'Category', ar: 'التصنيف' },
+      headlineMetricL: { en: 'Headline', ar: 'الأبرز' },
+      ctaBtn: { en: 'Start a Project', ar: 'ابدأ مشروعك' },
+      nextL: { en: 'Next project', ar: 'المشروع التالي' },
+    },
+    aboutPage: {
+      eyebrow: { en: 'About Brain-Tech', ar: 'عن براين-تك' },
+      title: { en: 'A technology partner built for outcomes.', ar: 'شريك تقني مبنيّ لتحقيق النتائج.' },
+      lead: { en: 'We are a team of senior engineers, strategists, and creatives who treat your goals as our own — delivering software, infrastructure, marketing, and video under one roof.', ar: 'نحن فريق من المهندسين والاستراتيجيين والمبدعين الكبار نعتبر أهدافك أهدافنا — نقدّم البرمجيات والبنية التحتية والتسويق والفيديو تحت سقف واحد.' },
+      storyTitle: { en: 'Our story', ar: 'قصّتنا' },
+      story1: { en: 'Brain-Tech began with a simple frustration: businesses were forced to stitch together agencies and freelancers, losing time and accountability in the gaps. We built one team that owns the entire journey — from the first line of code to the final published frame.', ar: 'بدأ براين-تك من إحباط بسيط: كانت الشركات مضطرّة لربط وكالات ومستقلّين، فتخسر الوقت والمسؤولية في الفجوات بينهم. فبنينا فريقًا واحدًا يملك الرحلة كاملة — من أول سطر برمجي إلى آخر لقطة منشورة.' },
+      story2: { en: 'Today we partner with startups and enterprises across four disciplines, holding ourselves to measurable outcomes and shipping in weekly iterations. No hand-offs, no finger-pointing — just one accountable team.', ar: 'واليوم نعمل مع الشركات الناشئة والمؤسسات عبر أربعة تخصصات، ملتزمين بنتائج قابلة للقياس ونُسلّم بدورات أسبوعية. لا تحويلات ولا تبادل لوم — فريق واحد مسؤول فقط.' },
+      missionTitle: { en: 'Our mission', ar: 'مهمّتنا' },
+      mission: { en: 'To be the most accountable technology partner our clients have ever worked with — turning ambitious ideas into products and growth that can be measured.', ar: 'أن نكون الشريك التقني الأكثر مسؤولية الذي تعامل معه عملاؤنا — نحوّل الأفكار الطموحة إلى منتجات ونموّ يمكن قياسه.' },
+      valuesTitle: { en: 'What we stand for', ar: 'ما نؤمن به' },
+      statsTitle: { en: 'By the numbers', ar: 'بالأرقام' },
+    },
+    servicesPage: {
+      eyebrow: { en: 'Our services', ar: 'خدماتنا' },
+      title: { en: 'Everything you need to build, launch, and grow.', ar: 'كل ما تحتاجه للبناء والإطلاق والنمو.' },
+      lead: { en: 'Four core disciplines, delivered by one senior team and designed to work together.', ar: 'أربعة تخصصات أساسية، يقدّمها فريق واحد متمرّس ومصمّمة لتعمل معًا.' },
+      deliverablesL: { en: 'What you get', ar: 'ما تحصل عليه' },
+    },
+    serviceMore: [
+      { tagline: { en: 'Custom software, engineered to last.', ar: 'برمجيات مخصّصة، مبنيّة لتدوم.' }, longDesc: { en: 'We design and build web and mobile applications that are fast, secure, and ready to scale — whether you are validating an MVP or modernizing an enterprise platform.', ar: 'نصمّم ونبني تطبيقات ويب وجوال سريعة وآمنة وجاهزة للتوسّع — سواء كنت تتحقّق من نموذج أوّلي أو تحدّث منصّة مؤسسية.' }, deliverables: [{ en: 'Web & mobile app development', ar: 'تطوير تطبيقات الويب والجوال' }, { en: 'Product & UX design', ar: 'تصميم المنتج وتجربة المستخدم' }, { en: 'API design & integrations', ar: 'تصميم الواجهات والتكاملات' }, { en: 'Database & backend architecture', ar: 'هندسة قواعد البيانات والخلفية' }, { en: 'QA, testing & launch support', ar: 'الجودة والاختبار ودعم الإطلاق' }] },
+      { tagline: { en: 'Infrastructure that stays up and scales costs down.', ar: 'بنية تحتية تبقى تعمل وتخفّض التكاليف.' }, longDesc: { en: 'Cloud architecture, DevOps, and IT systems engineered for resilience, security, and predictable cost — with monitoring so you are never caught by surprise.', ar: 'هندسة سحابية وDevOps وأنظمة تقنية مصمّمة للمرونة والأمان وتكلفة متوقّعة — مع مراقبة تجنّبك المفاجآت.' }, deliverables: [{ en: 'Cloud architecture & migration', ar: 'الهندسة السحابية والترحيل' }, { en: 'CI/CD & DevOps automation', ar: 'أتمتة CI/CD وDevOps' }, { en: 'Security & compliance hardening', ar: 'تعزيز الأمان والامتثال' }, { en: 'Monitoring & observability', ar: 'المراقبة والرصد' }, { en: 'Ongoing maintenance & SLAs', ar: 'الصيانة المستمرة واتفاقيات الخدمة' }] },
+      { tagline: { en: 'Growth you can attribute and trust.', ar: 'نموّ يمكنك عزوه والوثوق به.' }, longDesc: { en: 'Data-driven SEO, paid media, and content strategy that compounds over time — every dollar tracked against real business outcomes.', ar: 'تحسين محرّكات بحث وإعلانات مدفوعة واستراتيجية محتوى قائمة على البيانات تتراكم مع الوقت — كل دولار يُقاس مقابل نتائج أعمال حقيقية.' }, deliverables: [{ en: 'SEO & answer-engine optimization', ar: 'تحسين محرّكات ومحرّكات الإجابة' }, { en: 'Paid search & social campaigns', ar: 'حملات البحث والتواصل المدفوعة' }, { en: 'Content & email strategy', ar: 'استراتيجية المحتوى والبريد' }, { en: 'Analytics & conversion tracking', ar: 'التحليلات وتتبّع التحويلات' }, { en: 'Monthly reporting & insights', ar: 'تقارير ورؤى شهرية' }] },
+      { tagline: { en: 'Stories that define your brand.', ar: 'قصص تُعرّف علامتك.' }, longDesc: { en: 'Professional editing, motion design, and post-production that turn raw footage into content built to perform across every channel.', ar: 'مونتاج احترافي وموشن جرافيك ومعالجة لاحقة تحوّل اللقطات الخام إلى محتوى مصمّم للأداء عبر كل القنوات.' }, deliverables: [{ en: 'Video editing & post-production', ar: 'المونتاج والمعالجة اللاحقة' }, { en: 'Motion graphics & animation', ar: 'الموشن جرافيك والأنيميشن' }, { en: 'Short-form & social cuts', ar: 'مقاطع قصيرة لمنصّات التواصل' }, { en: 'Color grading & sound', ar: 'تصحيح الألوان والصوت' }, { en: 'Brand & promo videos', ar: 'فيديوهات العلامة والترويج' }] },
+    ],
+    contactPage: {
+      eyebrow: { en: 'Contact us', ar: 'تواصل معنا' },
+      title: { en: "Let's talk about your project.", ar: 'لنتحدّث عن مشروعك.' },
+      lead: { en: 'Tell us what you are building and we will respond within one business day with clear next steps.', ar: 'أخبرنا بما تبنيه وسنردّ خلال يوم عمل واحد بخطوات تالية واضحة.' },
+      formTitle: { en: 'Send us a message', ar: 'أرسل لنا رسالة' },
+      fName: { en: 'Full name', ar: 'الاسم الكامل' },
+      fEmail: { en: 'Email address', ar: 'البريد الإلكتروني' },
+      fCompany: { en: 'Company (optional)', ar: 'الشركة (اختياري)' },
+      fService: { en: 'Service of interest', ar: 'الخدمة المطلوبة' },
+      fMessage: { en: 'Project details', ar: 'تفاصيل المشروع' },
+      submit: { en: 'Send message', ar: 'إرسال الرسالة' },
+      sent: { en: 'Thank you — your message is on its way. A senior team member will reply within one business day.', ar: 'شكرًا — رسالتك في طريقها إلينا. سيردّ عضو متمرّس من الفريق خلال يوم عمل واحد.' },
+      generalOption: { en: 'General inquiry', ar: 'استفسار عام' },
+      infoTitle: { en: 'Other ways to reach us', ar: 'طرق أخرى للتواصل' },
+      emailL: { en: 'Email', ar: 'البريد' },
+      phoneL: { en: 'Phone', ar: 'الهاتف' },
+      officeL: { en: 'Office', ar: 'المكتب' },
+      office: { en: '548 Market Street, San Francisco, CA', ar: '548 شارع ماركت، سان فرانسيسكو، كاليفورنيا' },
+      hoursL: { en: 'Hours', ar: 'ساعات العمل' },
+      hours: { en: 'Mon–Fri · 9am–6pm PT', ar: 'الإثنين–الجمعة · 9ص–6م بتوقيت المحيط الهادئ' },
+      responseTitle: { en: 'Fast, honest answers', ar: 'إجابات سريعة وصادقة' },
+      responseText: { en: 'We reply to every inquiry within one business day. No bots, no runaround — a senior team member reads your message and responds personally.', ar: 'نردّ على كل استفسار خلال يوم عمل واحد. لا روبوتات ولا تعقيد — يقرأ رسالتك عضو متمرّس من الفريق ويردّ شخصيًا.' },
+    },
+    services: [
+      { iconKey: 'software', title: { en: 'Software Solutions', ar: 'حلول برمجية' }, desc: { en: 'Custom web and mobile platforms architected for performance, security, and scale — from MVP to enterprise.', ar: 'منصّات ويب وتطبيقات مخصّصة مصمّمة للأداء والأمان والتوسّع — من النموذج الأولي إلى المؤسسات.' } },
+      { iconKey: 'tech', title: { en: 'Tech Solutions', ar: 'حلول تقنية' }, desc: { en: 'Cloud infrastructure, DevOps, integrations, and IT systems engineered to keep your business resilient.', ar: 'بنية سحابية وDevOps وتكاملات وأنظمة تقنية مصمّمة لإبقاء أعمالك مرنة وموثوقة.' } },
+      { iconKey: 'marketing', title: { en: 'Digital Marketing', ar: 'تسويق رقمي' }, desc: { en: 'Data-driven SEO, paid media, and content that compounds — growth you can attribute and trust.', ar: 'تحسين لمحرّكات البحث وإعلانات مدفوعة ومحتوى قائم على البيانات — نموّ يمكنك قياسه والوثوق به.' } },
+      { iconKey: 'video', title: { en: 'Video Editing', ar: 'مونتاج فيديو' }, desc: { en: 'Professional editing, motion, and post-production that turn raw footage into brand-defining stories.', ar: 'مونتاج احترافي وموشن جرافيك ومعالجة لاحقة تحوّل اللقطات الخام إلى قصص تُعرّف علامتك.' } },
+    ],
+    values: [
+      { iconKey: 'expertise', title: { en: 'Senior Expertise', ar: 'خبرة متقدّمة' }, desc: { en: 'Every engagement is led by senior specialists — no hand-offs to junior teams.', ar: 'كل مشروع يقوده مختصّون كبار — دون تحويله لفرق أقل خبرة.' } },
+      { iconKey: 'speed', title: { en: 'Speed to Ship', ar: 'سرعة التسليم' }, desc: { en: 'Tight feedback loops and weekly releases get you to value faster.', ar: 'دورات مراجعة سريعة وإصدارات أسبوعية توصلك للقيمة أسرع.' } },
+      { iconKey: 'results', title: { en: 'Measurable Results', ar: 'نتائج قابلة للقياس' }, desc: { en: 'We define success metrics up front and report against them, always.', ar: 'نحدّد مؤشرات النجاح مسبقًا ونرفع تقاريرنا وفقها دائمًا.' } },
+      { iconKey: 'support', title: { en: 'Always-On Support', ar: 'دعم متواصل' }, desc: { en: 'Dedicated channels and SLAs mean help is never more than a message away.', ar: 'قنوات مخصّصة واتفاقيات مستوى خدمة تجعل الدعم على بُعد رسالة دائمًا.' } },
+    ],
+    steps: [
+      { num: '01', title: { en: 'Discover', ar: 'الاستكشاف' }, desc: { en: 'We align on goals, audit constraints, and map the fastest path to impact.', ar: 'نتّفق على الأهداف، ونحلّل القيود، ونرسم أسرع طريق للأثر.' } },
+      { num: '02', title: { en: 'Design', ar: 'التصميم' }, desc: { en: 'Architecture, UX, and a clear plan — validated before a line is written.', ar: 'البنية وتجربة المستخدم وخطة واضحة — نتحقّق منها قبل كتابة أي سطر.' } },
+      { num: '03', title: { en: 'Build', ar: 'التطوير' }, desc: { en: 'Iterative delivery with weekly demos so you always see real progress.', ar: 'تسليم تدريجي مع عروض أسبوعية لترى تقدّمًا حقيقيًا دائمًا.' } },
+      { num: '04', title: { en: 'Scale', ar: 'التوسّع' }, desc: { en: 'We harden, optimize, and grow the solution alongside your business.', ar: 'نُعزّز ونُحسّن ونوسّع الحل جنبًا إلى جنب مع نمو أعمالك.' } },
+    ],
+    projects: [
+      {
+        slug: 'fintech-onboarding', img: ((typeof window !== 'undefined' && window.__resources && window.__resources.proj1)) || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1100&q=80', year: '2025', metric: '+212%',
+        tag: { en: 'Software', ar: 'برمجيات' },
+        name: { en: 'Fintech onboarding platform', ar: 'منصّة تهيئة عملاء للتقنية المالية' },
+        metricLabel: { en: 'signup conversion', ar: 'تحويل التسجيل' },
+        client: { en: 'Northwind Financial', ar: 'نورثويند للتمويل' },
+        alt: { en: 'Analytics dashboard for a fintech onboarding platform', ar: 'لوحة تحليلات لمنصّة تهيئة عملاء للتقنية المالية' },
+        summary: { en: 'A regulated fintech needed an onboarding flow that converted without compromising on KYC compliance. We rebuilt it end to end.', ar: 'احتاجت شركة تقنية مالية خاضعة للتنظيم تدفّق تهيئة يحقّق التحويل دون المساس بمتطلبات «اعرف عميلك». أعدنا بناءه بالكامل.' },
+        challenge: { en: 'The legacy signup took 14 steps across two systems, leaking over half of applicants before completion and creating a compliance review backlog.', ar: 'كان التسجيل القديم يتطلّب 14 خطوة عبر نظامين، ما تسبّب بفقدان أكثر من نصف المتقدّمين قبل الإكمال وتراكم مراجعات الامتثال.' },
+        approach: { en: 'We mapped every drop-off, collapsed the flow to four smart steps, automated identity verification, and instrumented the funnel with real-time analytics.', ar: 'رصدنا كل نقطة تسرّب، واختصرنا التدفّق إلى أربع خطوات ذكية، وأتمتنا التحقّق من الهوية، وزوّدنا المسار بتحليلات لحظية.' },
+        results: [
+          { metric: '+212%', label: { en: 'signup conversion', ar: 'تحويل التسجيل' } },
+          { metric: '−63%', label: { en: 'time to approve', ar: 'زمن الموافقة' } },
+          { metric: '4.9/5', label: { en: 'user rating', ar: 'تقييم المستخدمين' } },
+        ],
+        servicesUsed: [{ en: 'Product Design', ar: 'تصميم المنتج' }, { en: 'Web Development', ar: 'تطوير الويب' }, { en: 'API Integration', ar: 'تكامل الواجهات' }],
+      },
+      {
+        slug: 'cloud-migration', img: ((typeof window !== 'undefined' && window.__resources && window.__resources.proj2)) || 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1100&q=80', year: '2024', metric: '−43%',
+        tag: { en: 'Tech Solutions', ar: 'حلول تقنية' },
+        name: { en: 'Cloud migration & DevOps', ar: 'ترحيل سحابي وDevOps' },
+        metricLabel: { en: 'infra cost', ar: 'تكلفة البنية' },
+        client: { en: 'Helio Logistics', ar: 'هيليو للخدمات اللوجستية' },
+        alt: { en: 'Data center servers representing cloud infrastructure', ar: 'خوادم مركز بيانات تمثّل البنية السحابية' },
+        summary: { en: 'A logistics platform was buckling under traffic spikes on aging on-prem servers. We migrated it to a resilient, auto-scaling cloud.', ar: 'كانت منصّة لوجستية تنهار تحت ذُرى الزيارات على خوادم محلية قديمة. رحّلناها إلى سحابة مرنة ذاتية التوسّع.' },
+        challenge: { en: 'Peak-season outages, manual deployments, and unpredictable infrastructure bills were holding the business back.', ar: 'انقطاعات في مواسم الذروة، ونشر يدوي، وفواتير بنية غير متوقّعة كانت تعيق نمو الأعمال.' },
+        approach: { en: 'We containerized the stack, built a CI/CD pipeline, introduced infrastructure-as-code, and set up auto-scaling with full observability.', ar: 'حوّلنا النظام إلى حاويات، وبنينا خط CI/CD، واعتمدنا البنية ككود، وأعددنا توسّعًا تلقائيًا مع مراقبة كاملة.' },
+        results: [
+          { metric: '−43%', label: { en: 'infra cost', ar: 'تكلفة البنية' } },
+          { metric: '99.99%', label: { en: 'uptime', ar: 'زمن التشغيل' } },
+          { metric: '12×', label: { en: 'faster deploys', ar: 'نشر أسرع' } },
+        ],
+        servicesUsed: [{ en: 'Cloud Architecture', ar: 'هندسة سحابية' }, { en: 'DevOps', ar: 'DevOps' }, { en: 'Monitoring', ar: 'المراقبة' }],
+      },
+      {
+        slug: 'growth-campaign', img: ((typeof window !== 'undefined' && window.__resources && window.__resources.proj3)) || 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1100&q=80', year: '2025', metric: '4.8×',
+        tag: { en: 'Marketing + Video', ar: 'تسويق + فيديو' },
+        name: { en: 'D2C growth campaign', ar: 'حملة نمو للبيع المباشر' },
+        metricLabel: { en: 'return on ad spend', ar: 'العائد على الإنفاق الإعلاني' },
+        client: { en: 'Lumen Goods', ar: 'لومن للمنتجات' },
+        alt: { en: 'Video editor working at a multi-monitor editing workstation', ar: 'محرّر فيديو يعمل على محطة مونتاج متعدّدة الشاشات' },
+        summary: { en: 'A direct-to-consumer brand needed performance creative and a paid strategy that actually scaled profitably.', ar: 'احتاجت علامة للبيع المباشر محتوى إعلانيًا فعّالًا واستراتيجية مدفوعة تتوسّع بربحية حقيقية.' },
+        challenge: { en: 'Ad costs were rising while creative fatigue crushed returns; the in-house team lacked video and analytics firepower.', ar: 'ارتفعت تكاليف الإعلان بينما أنهك تكرار المحتوى العوائد، وافتقر الفريق الداخلي لقدرات الفيديو والتحليلات.' },
+        approach: { en: 'We produced a library of short-form video, restructured campaigns around audience signals, and ran weekly creative testing.', ar: 'أنتجنا مكتبة من مقاطع الفيديو القصيرة، وأعدنا هيكلة الحملات حول إشارات الجمهور، وأجرينا اختبارات إبداعية أسبوعية.' },
+        results: [
+          { metric: '4.8×', label: { en: 'return on ad spend', ar: 'العائد على الإنفاق' } },
+          { metric: '+180%', label: { en: 'revenue', ar: 'الإيرادات' } },
+          { metric: '−37%', label: { en: 'cost per acquisition', ar: 'تكلفة الاكتساب' } },
+        ],
+        servicesUsed: [{ en: 'Paid Media', ar: 'إعلانات مدفوعة' }, { en: 'Video Production', ar: 'إنتاج فيديو' }, { en: 'Analytics', ar: 'تحليلات' }],
+      },
+    ],
+    stats: [
+      { key: 'projects', suffix: '+', label: { en: 'Projects delivered', ar: 'مشاريع منجزة' } },
+      { key: 'clients', suffix: '+', label: { en: 'Happy clients', ar: 'عملاء سعداء' } },
+      { key: 'years', suffix: '', label: { en: 'Years in business', ar: 'سنوات خبرة' } },
+      { key: 'satisfaction', suffix: '%', label: { en: 'Client satisfaction', ar: 'رضا العملاء' } },
+    ],
+    testimonials: [
+      { initials: 'SM', quote: { en: 'Brain-Tech rebuilt our core platform in four months. It now handles 10x the load and our team finally trusts the codebase.', ar: 'أعاد براين-تك بناء منصّتنا الأساسية خلال أربعة أشهر. تتحمّل الآن عشرة أضعاف الحمل وأصبح فريقنا يثق بالكود أخيرًا.' }, name: { en: 'Sara Mehta', ar: 'سارة مهتا' }, role: { en: 'CTO, Northwind', ar: 'المديرة التقنية، نورثويند' } },
+      { initials: 'DO', quote: { en: 'They treated our growth targets like their own. The marketing and product teams worked as one — results spoke for themselves.', ar: 'تعاملوا مع أهداف نمونا كأنها أهدافهم. عمل فريقا التسويق والمنتج كفريق واحد — والنتائج تتحدّث عن نفسها.' }, name: { en: 'David Olsen', ar: 'ديفيد أولسن' }, role: { en: 'VP Growth, Helio', ar: 'نائب رئيس النمو، هيليو' } },
+      { initials: 'PN', quote: { en: 'The most accountable agency we have worked with. Clear communication, real senior talent, zero surprises on delivery.', ar: 'أكثر وكالة تتحمّل المسؤولية تعاملنا معها. تواصل واضح وكفاءات حقيقية ولا مفاجآت في التسليم.' }, name: { en: 'Priya Nair', ar: 'بريا ناير' }, role: { en: 'Founder, Quantix', ar: 'مؤسِّسة، كوانتكس' } },
+      { initials: 'ML', quote: { en: 'From infrastructure to brand video, they covered every gap our internal team had. A genuine end-to-end partner.', ar: 'من البنية التحتية إلى فيديو العلامة، غطّوا كل ثغرة لدى فريقنا الداخلي. شريك متكامل بحق.' }, name: { en: 'Marcus Lee', ar: 'ماركوس لي' }, role: { en: 'COO, Lumen', ar: 'مدير العمليات، لومن' } },
+    ],
+    faqs: [
+      { q: { en: 'What services does Brain-Tech offer?', ar: 'ما الخدمات التي يقدّمها براين-تك؟' }, a: { en: 'Brain-Tech delivers four core services under one roof: custom software development (web and mobile applications), IT and technology solutions (cloud infrastructure, DevOps, and system integrations), digital marketing (SEO, paid media, and content strategy), and professional video editing and post-production. Because all four live in one team, projects that span disciplines move faster and stay coordinated.', ar: 'يقدّم براين-تك أربع خدمات أساسية تحت سقف واحد: تطوير برمجيات مخصّصة (تطبيقات ويب وجوال)، وحلول تقنية ومعلوماتية (بنية سحابية وDevOps وتكاملات أنظمة)، وتسويق رقمي (تحسين محرّكات البحث والإعلانات المدفوعة واستراتيجية المحتوى)، ومونتاج فيديو احترافي ومعالجة لاحقة. ولأن الأربعة في فريق واحد، تتقدّم المشاريع المتعدّدة التخصصات أسرع وبتنسيق كامل.' } },
+      { q: { en: 'How much does a typical project cost?', ar: 'كم تبلغ تكلفة المشروع عادةً؟' }, a: { en: 'Pricing depends on scope, complexity, and timeline. Most software projects start in the low five figures for a focused MVP and scale from there, while marketing and video engagements are commonly structured as monthly retainers. After a short discovery call we provide a fixed, itemized quote so there are no surprises.', ar: 'تعتمد التكلفة على النطاق والتعقيد والجدول الزمني. تبدأ معظم مشاريع البرمجيات من خمسة أرقام منخفضة لنموذج أوّلي مركّز وتتوسّع من هناك، بينما تُنظَّم خدمات التسويق والفيديو غالبًا كاشتراكات شهرية. وبعد مكالمة استكشافية قصيرة نقدّم عرض سعر ثابتًا ومفصّلًا دون أي مفاجآت.' } },
+      { q: { en: 'How long does it take to build a custom application?', ar: 'كم يستغرق بناء تطبيق مخصّص؟' }, a: { en: 'A focused MVP typically ships in 6 to 12 weeks, while larger enterprise platforms run 3 to 6 months or more. We work in weekly iterations with live demos, so you see working software early and can adjust priorities as the project progresses rather than waiting until the end.', ar: 'يُسلَّم النموذج الأوّلي المركّز عادةً خلال 6 إلى 12 أسبوعًا، بينما تستغرق منصّات المؤسسات الأكبر من 3 إلى 6 أشهر أو أكثر. نعمل بدورات أسبوعية مع عروض حيّة، لترى برمجيات عاملة مبكرًا وتعدّل الأولويات أثناء التقدّم بدلًا من الانتظار حتى النهاية.' } },
+      { q: { en: 'Do you work with startups as well as enterprises?', ar: 'هل تعملون مع الشركات الناشئة والمؤسسات الكبرى معًا؟' }, a: { en: 'Yes. We support early-stage startups validating their first product and established enterprises modernizing legacy systems. Our process scales to the engagement: lean and fast for startups, with the documentation, security, and compliance rigor that larger organizations require.', ar: 'نعم. ندعم الشركات الناشئة في مراحلها المبكرة للتحقّق من منتجها الأول، والمؤسسات الراسخة في تحديث أنظمتها القديمة. تتكيّف منهجيتنا مع المشروع: رشيقة وسريعة للناشئة، مع التوثيق والأمان والامتثال الذي تتطلّبه المؤسسات الأكبر.' } },
+      { q: { en: 'What happens after a project launches?', ar: 'ماذا يحدث بعد إطلاق المشروع؟' }, a: { en: 'Launch is the beginning, not the end. Every engagement includes a support and maintenance plan with dedicated communication channels, defined response-time SLAs, monitoring, and ongoing optimization. We can also operate as your long-term technology partner, scaling the solution as your business grows.', ar: 'الإطلاق هو البداية لا النهاية. يشمل كل مشروع خطة دعم وصيانة بقنوات تواصل مخصّصة، واتفاقيات مستوى خدمة لزمن الاستجابة، ومراقبة، وتحسين مستمر. ويمكننا أيضًا العمل كشريكك التقني طويل المدى، نوسّع الحل مع نمو أعمالك.' } },
+      { q: { en: 'How do we get started?', ar: 'كيف نبدأ؟' }, a: { en: 'Click "Get a Quote" or email hello@brain-tech.com with a short description of your goals. We respond within one business day to schedule a discovery call, and you receive a clear proposal with scope, timeline, and pricing within a few days of that conversation.', ar: 'انقر «اطلب عرض سعر» أو راسلنا على hello@brain-tech.com بوصف موجز لأهدافك. نردّ خلال يوم عمل واحد لتحديد موعد مكالمة استكشافية، وتستلم عرضًا واضحًا يتضمّن النطاق والجدول الزمني والتسعير خلال أيام قليلة من تلك المكالمة.' } },
+    ],
+  };
+
+  // resolve {en,ar} leaves recursively
+  resolve(node, lang) {
+    if (Array.isArray(node)) return node.map((n) => this.resolve(n, lang));
+    if (node && typeof node === 'object') {
+      const keys = Object.keys(node);
+      if (keys.length === 2 && 'en' in node && 'ar' in node) return node[lang];
+      const out = {};
+      for (const k of keys) out[k] = this.resolve(node[k], lang);
+      return out;
+    }
+    return node;
+  }
+
+  anSave() { try { localStorage.setItem('bt-analytics', JSON.stringify(this.an)); } catch (e) {} }
+  initAnalytics() {
+    try { this.an = JSON.parse(localStorage.getItem('bt-analytics') || 'null') || { events: [] }; } catch (e) { this.an = { events: [] }; }
+    if (!this.an.events) this.an.events = [];
+    let vid; try { vid = localStorage.getItem('bt-visitor'); if (!vid) { vid = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); localStorage.setItem('bt-visitor', vid); } } catch (e) { vid = 'anon'; }
+    this.anVisitor = vid;
+    let sid; try { sid = sessionStorage.getItem('bt-session'); if (!sid) { sid = 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); sessionStorage.setItem('bt-session', sid); } } catch (e) { sid = 's0'; }
+    this.anSession = sid;
+    const ua = navigator.userAgent || '';
+    this.anDevice = /Mobi|Android|iPhone/i.test(ua) ? 'Mobile' : (/iPad|Tablet/i.test(ua) ? 'Tablet' : 'Desktop');
+    this.anRef = 'Direct';
+    try { if (document.referrer) { const h = new URL(document.referrer).hostname.replace(/^www\./, ''); this.anRef = h || 'Direct'; } } catch (e) {}
+    this._pgRoute = this.state.route; this._pgEnter = Date.now();
+    try {
+      const geoRaw = sessionStorage.getItem('bt-geo');
+      if (geoRaw) this.anGeo = JSON.parse(geoRaw);
+      else fetch('https://ipapi.co/json/').then((r) => r.json()).then((j) => { this.anGeo = { ip: String(j.ip || '').replace(/\.\d+$/, '.x'), country: j.country_name || 'Unknown', city: j.city || '' }; try { sessionStorage.setItem('bt-geo', JSON.stringify(this.anGeo)); } catch (e) {} }).catch(() => {});
+    } catch (e) {}
+    window.addEventListener('pagehide', () => this.trackFlush());
+    window.addEventListener('beforeunload', () => this.trackFlush());
+  }
+  trackFlush() {
+    if (!this.an) return;
+    const now = Date.now();
+    const dur = Math.round((now - (this._pgEnter || now)) / 1000);
+    if (dur >= 1 && dur < 7200) {
+      this.an.events.push({ t: 'pv', route: this._pgRoute, dur, ts: this._pgEnter, lang: this.state.lang, dev: this.anDevice, ref: this.anRef, vis: this.anVisitor, ses: this.anSession, geo: this.anGeo || null });
+      if (this.an.events.length > 5000) this.an.events = this.an.events.slice(-5000);
+      this.anSave();
+    }
+    this._pgEnter = now;
+  }
+
+  // ---------- lifecycle ----------
+  loadCms() {
+    try {
+      const raw = localStorage.getItem('bt-cms-v1');
+      const d = raw ? JSON.parse(raw) : null;
+      this.cms = (d && d.content) || {};
+      this.cmsColors = (d && d.colors) || null;
+      this.cmsHidden = (d && d.hidden) || {};
+      this.cmsFaqs = (d && d.faqs && d.faqs.length) ? d.faqs : null;
+      this.cmsTests = (d && d.testimonials && d.testimonials.length) ? d.testimonials : null;
+    } catch (e) { this.cms = {}; this.cmsColors = null; this.cmsHidden = {}; this.cmsFaqs = null; this.cmsTests = null; }
+    this.applyCmsColors();
+    this.forceUpdate();
+  }
+
+  cmsVal(id, lang) {
+    const o = this.cms && this.cms[id];
+    if (!o) return undefined;
+    let v = (o[lang] != null && o[lang] !== '') ? o[lang] : o.en;
+    return (v !== undefined && v !== '') ? v : undefined;
+  }
+
+  applyCmsColors() {
+    const root = document.getElementById('bt-root');
+    if (!root) return;
+    const c = this.cmsColors;
+    if (c && (c.gradFrom || c.accent)) {
+      const from = c.gradFrom || c.accent, to = c.gradTo || c.accent;
+      const acc = c.accent || c.gradFrom;
+      root.style.setProperty('--g', 'linear-gradient(135deg,' + from + ' 0%,' + to + ' 100%)');
+      root.style.setProperty('--acc', c.ink || acc);
+      root.style.setProperty('--ic', c.ink || acc);
+      const rgb = this.hexToRgb(acc);
+      if (rgb) root.style.setProperty('--accRGB', rgb);
+    } else {
+      root.style.removeProperty('--g'); root.style.removeProperty('--acc'); root.style.removeProperty('--ic'); root.style.removeProperty('--accRGB');
+    }
+  }
+  hexToRgb(hex) {
+    try { const h = hex.replace('#', ''); const n = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16); return ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255); } catch (e) { return null; }
+  }
+
+  applyCmsText(C, lang) {
+    if (!this.cms || !Object.keys(this.cms).length) return;
+    const g = (id) => this.cmsVal(id, lang);
+    const set = (obj, key, id) => { if (!obj) return; const v = g(id); if (v !== undefined) obj[key] = v; };
+    const idx = ['0', '1', '2', '3'];
+    ['services', 'work', 'process', 'about', 'contact'].forEach((k) => set(C.nav, k, 'nav_' + k));
+    set(C.nav, 'quote', 'nav_quote');
+    ['badge', 'h1pre', 'h1hi', 'h1post', 'sub', 'cta1', 'cta2'].forEach((k) => set(C.hero, k, 'hero_' + k));
+    set(C.trust, 'label', 'trust_label');
+    set(C.servicesSec, 'eyebrow', 'ss_eyebrow'); set(C.servicesSec, 'title', 'ss_title'); set(C.servicesSec, 'sub', 'ss_sub'); set(C.servicesSec, 'learnMore', 'ss_learn');
+    idx.forEach((i) => { if (C.services[i]) { set(C.services[i], 'title', 'svc' + i + '_title'); set(C.services[i], 'desc', 'svc' + i + '_desc'); } });
+    set(C.valuesSec, 'eyebrow', 'vs_eyebrow'); set(C.valuesSec, 'title', 'vs_title');
+    idx.forEach((i) => { if (C.values[i]) { set(C.values[i], 'title', 'val' + i + '_title'); set(C.values[i], 'desc', 'val' + i + '_desc'); } });
+    set(C.processSec, 'eyebrow', 'ps_eyebrow'); set(C.processSec, 'title', 'ps_title');
+    idx.forEach((i) => { if (C.steps[i]) { set(C.steps[i], 'num', 'step' + i + '_num'); set(C.steps[i], 'title', 'step' + i + '_title'); set(C.steps[i], 'desc', 'step' + i + '_desc'); } });
+    set(C.workSec, 'eyebrow', 'ws_eyebrow'); set(C.workSec, 'title', 'ws_title'); set(C.workSec, 'startYours', 'ws_start');
+    idx.forEach((i) => { if (C.projects[i]) { set(C.projects[i], 'name', 'proj' + i + '_name'); set(C.projects[i], 'tag', 'proj' + i + '_tag'); set(C.projects[i], 'metric', 'proj' + i + '_metric'); set(C.projects[i], 'metricLabel', 'proj' + i + '_ml'); } });
+    idx.forEach((i) => { if (C.stats[i]) set(C.stats[i], 'label', 'stat' + i + '_label'); });
+    idx.forEach((i) => { if (C.testimonials[i]) { set(C.testimonials[i], 'quote', 't' + i + '_quote'); set(C.testimonials[i], 'name', 't' + i + '_name'); set(C.testimonials[i], 'role', 't' + i + '_role'); } });
+    ['0', '1', '2', '3', '4', '5'].forEach((i) => { if (C.faqs[i]) { set(C.faqs[i], 'q', 'faq' + i + '_q'); set(C.faqs[i], 'a', 'faq' + i + '_a'); } });
+    set(C.ctaSec, 'title', 'cta_title'); set(C.ctaSec, 'sub', 'cta_sub'); set(C.ctaSec, 'btn', 'cta_btn');
+    [['eyebrow', 'ab_eyebrow'], ['title', 'ab_title'], ['lead', 'ab_lead'], ['storyTitle', 'ab_storyTitle'], ['story1', 'ab_story1'], ['story2', 'ab_story2'], ['missionTitle', 'ab_missionTitle'], ['mission', 'ab_mission'], ['valuesTitle', 'ab_valuesTitle'], ['statsTitle', 'ab_statsTitle']].forEach((p) => set(C.aboutPage, p[0], p[1]));
+    set(C.servicesPage, 'eyebrow', 'sp_eyebrow'); set(C.servicesPage, 'title', 'sp_title'); set(C.servicesPage, 'lead', 'sp_lead');
+    idx.forEach((i) => { if (C.serviceMore[i]) { set(C.serviceMore[i], 'tagline', 'spsvc' + i + '_tag'); set(C.serviceMore[i], 'longDesc', 'spsvc' + i + '_long'); } });
+    [['eyebrow', 'ct_eyebrow'], ['title', 'ct_title'], ['lead', 'ct_lead'], ['formTitle', 'ct_formTitle'], ['fName', 'ct_fName'], ['fEmail', 'ct_fEmail'], ['fCompany', 'ct_fCompany'], ['fService', 'ct_fService'], ['fMessage', 'ct_fMessage'], ['submit', 'ct_submit'], ['sent', 'ct_sent'], ['office', 'ct_office'], ['hours', 'ct_hours'], ['responseTitle', 'ct_respTitle'], ['responseText', 'ct_respText']].forEach((p) => set(C.contactPage, p[0], p[1]));
+    [['tagline', 'ft_tagline'], ['servicesH', 'ft_servicesH'], ['companyH', 'ft_companyH'], ['newsletterH', 'ft_newsletterH'], ['newsletterP', 'ft_newsletterP'], ['rights', 'ft_rights']].forEach((p) => set(C.footer, p[0], p[1]));
+  }
+
+  componentDidMount() {
+    this.revealEls = [];
+    this.countersDone = false;
+    this._raf = null;
+    this._lastSig = this.state.route + '|' + this.state.lang + '|' + this.state.activeWork;
+
+    // ---- CMS: load content + color overrides written by the admin dashboard ----
+    this.loadCms();
+    this.initAnalytics();
+    this._onCms = () => this.loadCms();
+    window.addEventListener('storage', (e) => { if (!e || e.key === 'bt-cms-v1' || e.key === null) this.loadCms(); });
+    window.addEventListener('focus', this._onCms);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) this.loadCms(); });
+
+    // progressive enhancement: enable reveal-hiding only now that JS runs
+    const de = document.documentElement;
+    de.classList.add('bt-ready');
+    this._syncSnap = () => { if (document.hidden) de.classList.add('bt-snap'); else de.classList.remove('bt-snap'); };
+    this._syncSnap();
+    this._onVis = () => { if (document.hidden) this.trackFlush(); this._syncSnap(); this.refreshReveal(); this.handleScroll(); };
+    document.addEventListener('visibilitychange', this._onVis);
+    this._onScroll = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => { this._raf = null; this.handleScroll(); });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onScroll);
+
+    this._onHash = () => this.applyHash();
+    window.addEventListener('hashchange', this._onHash);
+    this.applyHash(true);
+
+    this._timer = setInterval(() => this.nextSlide(), 6500);
+
+    this.refreshReveal();
+    this.handleScroll();
+    // re-check as layout/fonts settle (preview has no initial scroll event)
+    [150, 450, 900].forEach((d) => setTimeout(() => { this.refreshReveal(); this.handleScroll(); }, d));
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.refreshReveal(); this.handleScroll(); });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onScroll);
+    window.removeEventListener('hashchange', this._onHash);
+    document.removeEventListener('visibilitychange', this._onVis);
+    clearInterval(this._timer);
+  }
+
+  componentDidUpdate() {
+    // re-assert title/meta after every commit (the helmet <title> re-applies on re-render and would clobber it)
+    this.setMeta(this.state.route, this.state.activeWork);
+    this.applyCmsColors();
+    const sig = this.state.route + '|' + this.state.lang + '|' + this.state.activeWork;
+    if (sig !== this._lastSig) {
+      this._lastSig = sig;
+      if (this.state.route !== this._pgRoute) { this.trackFlush(); this._pgRoute = this.state.route; this._pgEnter = Date.now(); }
+      // content DOM changed — re-collect reveal targets and re-evaluate
+      setTimeout(() => { this.refreshReveal(); this.handleScroll(); }, 30);
+    }
+  }
+
+  refreshReveal() {
+    this.revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
+  }
+
+  handleScroll() {
+    const s = window.scrollY > 36;
+    if (s !== this.state.scrolled) this.setState({ scrolled: s });
+    const vh = window.innerHeight || 800;
+    for (const el of this.revealEls) {
+      const r = el.getBoundingClientRect();
+      const inView = r.top < vh * 0.9 && r.bottom > vh * 0.08;
+      if (inView) el.classList.add('bt-in');
+      else el.classList.remove('bt-in');
+    }
+    if (!this.countersDone) {
+      const sb = document.getElementById('stats-band');
+      if (sb) {
+        const r = sb.getBoundingClientRect();
+        if (r.top < vh * 0.85 && r.bottom > 0) { this.countersDone = true; this.animateCounts(); }
+      }
+    }
+  }
+
+  applyHash(initial) {
+    const h = (typeof location !== 'undefined' && location.hash) || '';
+    const m = h.match(/^#\/work\/(.+)$/);
+    if (m) {
+      const idx = this.C.projects.findIndex((p) => p.slug === m[1]);
+      if (idx >= 0) {
+        this.setState({ route: 'work', activeWork: idx });
+        window.scrollTo(0, 0);
+        this.setMeta('work', idx);
+        return;
+      }
+    }
+    const pm = h.match(/^#\/(about|services|contact)$/);
+    if (pm) {
+      this.setState({ route: pm[1] });
+      if (!initial) window.scrollTo(0, 0); else window.scrollTo(0, 0);
+      this.setMeta(pm[1]);
+      return;
+    }
+    this.setState({ route: 'home' });
+    this.setMeta('home');
+  }
+
+  ensureTag(kind, key, attr) {
+    let el = document.head.querySelector((kind === 'link' ? 'link[rel="' : 'meta[' + (attr || (kind === 'og' ? 'property' : 'name')) + '="') + key + '"]');
+    if (!el) {
+      el = document.createElement(kind === 'link' ? 'link' : 'meta');
+      if (kind === 'link') el.setAttribute('rel', key);
+      else el.setAttribute(attr || (kind === 'og' ? 'property' : 'name'), key);
+      document.head.appendChild(el);
+    }
+    return el;
+  }
+  setMeta(route, idx) {
+    try {
+      const lng = this.state.lang;
+      const cv = (id) => (this.cmsVal ? this.cmsVal(id, lng) : null);
+      let t, d, path;
+      if (route === 'work') {
+        const p = this.C.projects[idx != null ? idx : this.state.activeWork];
+        const nm = p ? p.name.en : 'Case study';
+        t = nm + ' — Case Study | Brain-Tech';
+        d = 'How Brain-Tech delivered the ' + nm + ' project. ' + (p ? p.summary.en : '');
+        path = '#/work/' + (p ? p.slug : '');
+      } else {
+        const m = this.META[route] || this.META.home;
+        t = cv('seo_' + route + '_title') || m[0];
+        d = cv('seo_' + route + '_desc') || m[1];
+        path = route === 'home' ? '' : '#/' + route;
+      }
+      const ogT = cv('seo_' + route + '_ogtitle') || t;
+      const ogD = cv('seo_' + route + '_ogdesc') || d;
+      const canon = cv('seo_' + route + '_canonical') || ('https://brain-tech.com/' + path);
+      const robots = cv('seo_' + route + '_robots') || 'index, follow';
+      const kw = cv('seo_keywords');
+      const ogi = cv('seo_og_image');
+      const siteName = cv('seo_site_name') || 'Brain-Tech';
+      const tw = cv('seo_twitter') || '@braintech';
+      const locale = cv('seo_locale') || (lng === 'ar' ? 'ar_AR' : 'en_US');
+
+      document.title = t;
+      document.documentElement.setAttribute('lang', lng);
+      this.ensureTag('meta', 'description').setAttribute('content', d);
+      if (kw) this.ensureTag('meta', 'keywords').setAttribute('content', kw);
+      this.ensureTag('meta', 'robots').setAttribute('content', robots);
+      this.ensureTag('link', 'canonical').setAttribute('href', canon);
+      this.ensureTag('og', 'og:title').setAttribute('content', ogT);
+      this.ensureTag('og', 'og:description').setAttribute('content', ogD);
+      this.ensureTag('og', 'og:url').setAttribute('content', canon);
+      this.ensureTag('og', 'og:type').setAttribute('content', route === 'home' ? 'website' : 'article');
+      this.ensureTag('og', 'og:site_name').setAttribute('content', siteName);
+      this.ensureTag('og', 'og:locale').setAttribute('content', locale);
+      this.ensureTag('meta', 'twitter:card').setAttribute('content', 'summary_large_image');
+      this.ensureTag('meta', 'twitter:title').setAttribute('content', ogT);
+      this.ensureTag('meta', 'twitter:description').setAttribute('content', ogD);
+      this.ensureTag('meta', 'twitter:site').setAttribute('content', tw);
+      if (ogi) { this.ensureTag('og', 'og:image').setAttribute('content', ogi); this.ensureTag('meta', 'twitter:image').setAttribute('content', ogi); }
+    } catch (e) {}
+  }
+
+  goPage(name) { this.setState({ menuOpen: false }); location.hash = '#/' + name; }
+  onContactSubmit(e) { if (e && e.preventDefault) e.preventDefault(); this.setState({ contactSent: true }); }
+
+  animateCounts() {
+    const start = performance.now();
+    const dur = 1700;
+    const t = this.statTargets;
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / dur);
+      const e = 1 - Math.pow(1 - p, 3);
+      this.setState({ counts: { projects: Math.round(t.projects * e), clients: Math.round(t.clients * e), years: Math.round(t.years * e), satisfaction: Math.round(t.satisfaction * e) } });
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  // ---------- actions ----------
+  toggleMenu() { this.setState((s) => ({ menuOpen: !s.menuOpen })); }
+  closeMenu() { this.setState({ menuOpen: false }); }
+  toggleFaq(i) { this.setState((s) => ({ faqOpen: s.faqOpen === i ? -1 : i })); }
+  nextSlide() { this.setState((s) => ({ slide: (s.slide + 1) % this.C.testimonials.length })); }
+  prevSlide() { this.setState((s) => ({ slide: (s.slide - 1 + this.C.testimonials.length) % this.C.testimonials.length })); }
+  goSlide(i) { this.setState({ slide: i }); clearInterval(this._timer); this._timer = setInterval(() => this.nextSlide(), 6500); }
+
+  toggleLang() {
+    const lang = this.state.lang === 'en' ? 'ar' : 'en';
+    try { localStorage.setItem('bt-lang', lang); } catch (e) {}
+    this.setState({ lang, menuOpen: false });
+  }
+  toggleTheme() {
+    const theme = this.state.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('bt-theme', theme); } catch (e) {}
+    this.setState({ theme });
+  }
+
+  navHome() { if (location.hash) location.hash = ''; this.setState({ route: 'home', menuOpen: false }); }
+  goSection(id) {
+    this.setState({ menuOpen: false });
+    const doScroll = () => {
+      const el = document.getElementById(id);
+      if (el) { const y = el.getBoundingClientRect().top + window.scrollY - 76; window.scrollTo({ top: y, behavior: 'smooth' }); }
+    };
+    if (this.state.route !== 'home') { if (location.hash) location.hash = ''; this.setState({ route: 'home' }); setTimeout(doScroll, 90); }
+    else doScroll();
+  }
+  openWork(slug) { location.hash = '#/work/' + slug; }
+
+  renderVals() {
+    const { lang, theme, slide, counts, faqOpen, menuOpen, scrolled, route, activeWork } = this.state;
+    const dir = lang === 'ar' ? 'rtl' : 'ltr';
+    const C = this.resolve(this.C, lang);
+    if (this.cmsFaqs) { this.C.faqs = this.cmsFaqs.slice(); C.faqs = this.cmsFaqs.map((f) => ({ q: (f.q && (f.q[lang] || f.q.en)) || '', a: (f.a && (f.a[lang] || f.a.en)) || '' })); }
+    if (this.cmsTests) { this.C.testimonials = this.cmsTests.slice(); C.testimonials = this.cmsTests.map((t) => { const name = (t.name && (t.name[lang] || t.name.en)) || ''; const initials = (name.trim().split(/\s+/).slice(0, 2).map((w) => w[0] || '').join('').toUpperCase()) || '•'; return { quote: (t.quote && (t.quote[lang] || t.quote.en)) || '', name: name, role: (t.role && (t.role[lang] || t.role.en)) || '', initials: initials }; }); }
+    this.applyCmsText(C, lang);
+    // mono overrides (single value, language-independent)
+    let logos = this.logos;
+    const lg = this.cmsVal('trust_logos', lang);
+    if (lg) { const arr = lg.split(',').map((s) => s.trim()).filter(Boolean); if (arr.length) logos = arr; }
+    ['0', '1', '2', '3'].forEach((i) => {
+      const sv = this.cmsVal('stat' + i + '_value', lang);
+      const key = ['projects', 'clients', 'years', 'satisfaction'][i];
+      if (sv != null) { const n = parseFloat(sv); if (!isNaN(n)) this.statTargets[key] = n; }
+    });
+
+    const nav = (id) => (e) => { if (e && e.preventDefault) e.preventDefault(); this.goSection(id); };
+    const navHome = (e) => { if (e && e.preventDefault) e.preventDefault(); this.navHome(); };
+
+    const navStyle = scrolled
+      ? (theme === 'dark' ? 'background:rgba(8,8,11,0.78);' : 'background:rgba(245,246,251,0.82);') + 'backdrop-filter:blur(16px);border-bottom:1px solid var(--border);'
+      : 'background:transparent;border-bottom:1px solid transparent;';
+    const mobilePanelStyle = menuOpen ? 'max-height:440px;opacity:1;' : 'max-height:0px;opacity:0;';
+
+    const themeIcon = theme === 'dark'
+      ? this.svgIcon([this.el('path', { d: 'M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z', key: 1 })])
+      : this.svgIcon([this.el('circle', { cx: 12, cy: 12, r: 4, key: 1 }), this.el('line', { x1: 12, y1: 2, x2: 12, y2: 5, key: 2 }), this.el('line', { x1: 12, y1: 19, x2: 12, y2: 22, key: 3 }), this.el('line', { x1: 2, y1: 12, x2: 5, y2: 12, key: 4 }), this.el('line', { x1: 19, y1: 12, x2: 22, y2: 12, key: 5 }), this.el('line', { x1: 4.9, y1: 4.9, x2: 7, y2: 7, key: 6 }), this.el('line', { x1: 17, y1: 17, x2: 19.1, y2: 19.1, key: 7 }), this.el('line', { x1: 4.9, y1: 19.1, x2: 7, y2: 17, key: 8 }), this.el('line', { x1: 17, y1: 7, x2: 19.1, y2: 4.9, key: 9 })]);
+
+    const offerFor = (i) => {
+      const title = this.cmsVal('svc' + i + '_offer_title', lang);
+      const text = this.cmsVal('svc' + i + '_offer_text', lang);
+      const label = this.cmsVal('svc' + i + '_offer_label', lang);
+      if (!title && !text) return { has: false };
+      return { has: true, label: label || (lang === 'ar' ? 'عرض' : 'OFFER'), title: title || label || (lang === 'ar' ? 'عرض خاص' : 'Special offer'), text: text || '', until: this.cmsVal('svc' + i + '_offer_until', lang) || '' };
+    };
+    const services = C.services.map((s, i) => ({ title: s.title, desc: s.desc, icon: this.icons[s.iconKey], rd: (i * 0.09) + 's', offer: offerFor(i) }));
+    const serviceDetails = C.services.map((s, i) => ({ title: s.title, icon: this.icons[s.iconKey], tagline: C.serviceMore[i].tagline, longDesc: C.serviceMore[i].longDesc, deliverables: C.serviceMore[i].deliverables, rd: (i * 0.08) + 's', offer: offerFor(i) }));
+    const serviceOptions = C.services.map((s) => s.title).concat([C.contactPage.generalOption]);
+    const values = C.values.map((v) => ({ title: v.title, desc: v.desc, icon: this.icons[v.iconKey] }));
+    const steps = C.steps.map((st, i) => ({ ...st, lineStyle: i === C.steps.length - 1 ? 'display:none;' : '' }));
+    const projects = C.projects.map((p, i) => ({ name: p.name, tag: p.tag, metric: p.metric, metricLabel: p.metricLabel, alt: p.alt, rd: (i * 0.1) + 's', bgStyle: "background-image:url('" + p.img + "');", open: (e) => { if (e && e.preventDefault) e.preventDefault(); this.openWork(p.slug); } }));
+    const stats = C.stats.map((s) => ({ label: s.label, display: counts[s.key] + s.suffix }));
+    const trackStyle = 'display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1);transform:translateX(-' + (slide * 100) + '%);';
+    const testimonials = C.testimonials;
+    const dots = C.testimonials.map((tm, i) => ({ label: 'Go to testimonial ' + (i + 1), go: () => this.goSlide(i), style: i === slide ? 'width:26px;background:var(--acc);' : 'width:8px;background:var(--border2);' }));
+    const faqs = C.faqs.map((f, i) => {
+      const open = faqOpen === i;
+      return { q: f.q, a: f.a, open, toggle: () => this.toggleFaq(i), iconStyle: 'transform:rotate(' + (open ? '135' : '0') + 'deg);' + (open ? 'background:rgba(var(--accRGB),0.22);' : ''), panelStyle: 'overflow:hidden;transition:max-height .4s ease,opacity .3s ease;max-height:' + (open ? '420px' : '0px') + ';opacity:' + (open ? '1' : '0') + ';' };
+    });
+
+    const wp = C.projects[activeWork];
+    const nextIdx = (activeWork + 1) % C.projects.length;
+    const work = wp ? { name: wp.name, tag: wp.tag, bgStyle: "background-image:url('" + wp.img + "');", alt: wp.alt, client: wp.client, year: wp.year, metric: wp.metric, summary: wp.summary, challenge: wp.challenge, approach: wp.approach, results: wp.results, servicesUsed: wp.servicesUsed, next: { name: C.projects[nextIdx].name, open: (e) => { if (e && e.preventDefault) e.preventDefault(); this.openWork(this.C.projects[nextIdx].slug); } } } : null;
+
+    // ---- visibility (CMS hide/show) ----
+    const H = this.cmsHidden || {};
+    const show = (id) => !H[id];
+    // whole-page hide → redirect that route to home, and drop its nav link
+    const pageHidden = { services: !!H['page:services'], about: !!H['page:about'], contact: !!H['page:contact'] };
+    let eff = route;
+    if ((route === 'services' && pageHidden.services) || (route === 'about' && pageHidden.about) || (route === 'contact' && pageHidden.contact)) eff = 'home';
+    const vsec = { hero: show('sec:hero'), trust: show('sec:trust'), services: show('sec:services'), values: show('sec:values'), process: show('sec:process'), work: show('sec:work'), stats: show('sec:stats'), testimonials: show('sec:testimonials'), faq: show('sec:faq'), cta: show('sec:cta') };
+    const vshow = {};
+    ['hero_badge', 'hero_sub', 'hero_cta1', 'hero_cta2', 'trust_label', 'ss_eyebrow', 'ss_title', 'ss_sub', 'vs_eyebrow', 'vs_title', 'ps_eyebrow', 'ps_title', 'ws_eyebrow', 'ws_title', 'ws_start', 'cta_title', 'cta_sub', 'cta_btn', 'ab_eyebrow', 'ab_lead', 'sp_eyebrow', 'sp_lead', 'ct_eyebrow', 'ct_lead', 'nav_quote'].forEach((id) => { vshow[id] = show(id); });
+    // filter repeated items: an item is hidden when its primary field is toggled off
+    const fServices = services.filter((s, i) => show('svc' + i + '_title'));
+    const fValues = values.filter((v, i) => show('val' + i + '_title'));
+    const fSteps = C.steps.map((st, i) => ({ ...st })).filter((st, i) => show('step' + i + '_title')).map((st, i, arr) => ({ ...st, lineStyle: i === arr.length - 1 ? 'display:none;' : '' }));
+    const fProjects = projects.filter((p, i) => show('proj' + i + '_name'));
+    const visTestIdx = C.testimonials.map((t, i) => i).filter((i) => show('t' + i + '_quote'));
+    const fTestimonials = visTestIdx.map((i) => testimonials[i]);
+    const slideClamped = Math.min(slide, Math.max(0, fTestimonials.length - 1));
+    const fTrackStyle = 'display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1);transform:translateX(-' + (slideClamped * 100) + '%);';
+    const fDots = fTestimonials.map((tm, i) => ({ label: 'Go to testimonial ' + (i + 1), go: () => this.goSlide(i), style: i === slideClamped ? 'width:26px;background:var(--acc);' : 'width:8px;background:var(--border2);' }));
+    const fStats = stats.filter((s, i) => show('stat' + i + '_label'));
+    const fFaqs = faqs.filter((f, i) => show('faq' + i + '_q'));
+    // nav links (filter hidden)
+    const navLinks = [
+      { key: 'services', label: C.nav.services, on: (e) => { if (e && e.preventDefault) e.preventDefault(); this.goPage('services'); } },
+      { key: 'work', label: C.nav.work, on: nav('work') },
+      { key: 'process', label: C.nav.process, on: nav('process') },
+      { key: 'about', label: C.nav.about, on: (e) => { if (e && e.preventDefault) e.preventDefault(); this.goPage('about'); } },
+      { key: 'contact', label: C.nav.contact, on: (e) => { if (e && e.preventDefault) e.preventDefault(); this.goPage('contact'); } },
+    ].filter((l) => show('nav_' + l.key) && !pageHidden[l.key]);
+    // WhatsApp floating button
+    const waNum = (this.cmsVal('ct_whatsapp', lang) || '+14155550148').replace(/[^0-9]/g, '');
+    const waShow = show('sec:whatsapp') && !!waNum;
+    const waHref = 'https://wa.me/' + waNum;
+    const waStyle = 'position:fixed;bottom:22px;z-index:90;' + (dir === 'rtl' ? 'left:22px;' : 'right:22px;');
+
+    return {
+      dir, lang, theme,
+      langBtnLabel: lang === 'en' ? 'العربية' : 'EN',
+      themeIcon,
+      navStyle, mobilePanelStyle, menuOpen,
+      isHome: eff === 'home', isWork: eff === 'work', isAbout: eff === 'about', isServices: eff === 'services', isContact: eff === 'contact', showCta: eff !== 'contact',
+      t: { nav: C.nav, hero: C.hero, trust: C.trust, servicesSec: C.servicesSec, valuesSec: C.valuesSec, processSec: C.processSec, workSec: C.workSec, testSec: C.testSec, faqSec: C.faqSec, ctaSec: C.ctaSec, footer: C.footer, detail: C.detail, aboutPage: C.aboutPage, servicesPage: C.servicesPage, contactPage: C.contactPage },
+      logos: logos, socials: this.socials,
+      services: fServices, values: fValues, steps: fSteps, projects: fProjects, stats: fStats, testimonials: fTestimonials, dots: fDots, faqs: fFaqs, work, serviceDetails, serviceOptions,
+      trackStyle: fTrackStyle,
+      vsec, vshow, navLinks, waShow, waHref, waStyle,
+      contactSent: this.state.contactSent, onContactSubmit: (e) => this.onContactSubmit(e),
+      toggleMenu: () => this.toggleMenu(), closeMenu: () => this.closeMenu(),
+      toggleLang: () => this.toggleLang(), toggleTheme: () => this.toggleTheme(),
+      navHome, navServices: (e) => { if (e && e.preventDefault) e.preventDefault(); this.goPage('services'); }, navWork: nav('work'), navProcess: nav('process'), navAbout: (e) => { if (e && e.preventDefault) e.preventDefault(); this.goPage('about'); }, navContact: (e) => { if (e && e.preventDefault) e.preventDefault(); this.goPage('contact'); },
+      prevSlide: () => this.prevSlide(), nextSlide: () => this.nextSlide(),
+      onSubscribe: (e) => { e.preventDefault(); if (e.target && e.target.reset) e.target.reset(); },
+    };
+  }
+}
+</script>
+</body>
+</html>

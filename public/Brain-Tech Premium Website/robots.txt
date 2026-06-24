@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block nothing by default — all pages are indexable.
+# Manage per-page indexing from the CMS → SEO & Meta → robots directive.
+
+Sitemap: https://brain-tech.com/sitemap.xml
