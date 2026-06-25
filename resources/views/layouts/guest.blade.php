@@ -1,3 +1,9 @@
+@php
+    $accent = st('theme.ink', null) ?: st('theme.accent', '#34e0a0');
+    $gradFrom = st('theme.grad_from', '#0ddc83');
+    $gradTo = st('theme.grad_to', '#16e89a');
+    [$ar, $ag, $ab] = sscanf(st('theme.accent', '#34e0a0'), '#%02x%02x%02x') ?: [13, 200, 123];
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ is_rtl() ? 'rtl' : 'ltr' }}" data-bt-theme="dark">
 <head>
@@ -17,6 +23,16 @@
     </script>
 
     @vite(['resources/css/app.css', 'resources/css/site.css', 'resources/js/app.js'])
+
+    {{-- Brand palette — after @vite so it overrides the default site.css colours. --}}
+    <style>
+        :root, html[data-bt-theme] {
+            --acc: {{ $accent }};
+            --ic: {{ $accent }};
+            --accRGB: {{ $ar }}, {{ $ag }}, {{ $ab }};
+            --g: linear-gradient(135deg, {{ $gradFrom }} 0%, {{ $gradTo }} 100%);
+        }
+    </style>
 </head>
 <body style="background:var(--bg);color:var(--fg);min-height:100vh;">
     <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;position:relative;overflow:hidden;">

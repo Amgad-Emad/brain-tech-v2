@@ -17,6 +17,17 @@
                 <div role="img" aria-label="{{ $project->t('alt') }}" style="width:100%;height:100%;background-image:url('{{ $project->imageUrl() }}');background-size:cover;background-position:center;"></div>
             </div>
 
+            @php $gallery = $project->galleryUrls(); @endphp
+            @if (count($gallery))
+                <div class="bt-stagger" data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:40px;">
+                    @foreach ($gallery as $image)
+                        <div data-reveal="scale" style="border-radius:16px;overflow:hidden;border:1px solid var(--border);aspect-ratio:4/3;background:var(--panel2);">
+                            <img src="{{ $image }}" alt="{{ $project->t('name') }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
             <div class="bt-detail-meta" data-reveal style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:24px;background:var(--panel);border:1px solid var(--border);border-radius:18px;margin-bottom:46px;">
                 <div><div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ __('site.detail.client') }}</div><div style="font-weight:600;font-size:15px;">{{ $project->t('client') }}</div></div>
                 <div><div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ __('site.detail.year') }}</div><div style="font-weight:600;font-size:15px;">{{ $project->year }}</div></div>
