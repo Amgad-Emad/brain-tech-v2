@@ -8,7 +8,7 @@
         <div class="bt-foot-grid" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:40px;margin-bottom:54px;align-items:start;">
             <div>
                 <a href="{{ route('home') }}" style="display:inline-block;text-decoration:none;margin-bottom:18px;">
-                    <span style="display:inline-flex;padding:18px 22px;border-radius:16px;background:#0c0c11;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 30px rgba(0,0,0,0.3);">
+                    <span style="display:inline-flex;padding:18px 22px;border-radius:16px;background:#ffffff;border:1px solid rgba(0,0,0,0.06);box-shadow:0 8px 30px rgba(0,0,0,0.3);">
                         <img src="{{ asset('Brain-Tech-Premium-Website/brand/lockup.png') }}" alt="{{ st('brand.name') }}" style="width:158px;height:auto;display:block;" />
                     </span>
                 </a>
