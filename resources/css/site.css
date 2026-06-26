@@ -107,6 +107,18 @@ html { scroll-behavior: smooth; }
   .bt-desktop-nav { display: none !important; }
   .bt-cta-desktop { display: none !important; }
   .bt-burger { display: inline-flex !important; }
+  .bt-nav-inner { padding-left: 18px !important; padding-right: 18px !important; gap: 10px !important; }
+  .bt-nav-actions { gap: 7px !important; }
+}
+/* topbar: tighten controls so the brand never collides on small screens */
+@media (max-width: 560px) {
+  .bt-nav-inner { padding-left: 16px !important; padding-right: 16px !important; }
+  .bt-nav-btn { width: 40px !important; height: 40px !important; }
+}
+@media (max-width: 360px) {
+  .bt-nav-inner { padding-left: 14px !important; padding-right: 14px !important; gap: 8px !important; }
+  .bt-brand-text { display: none !important; }
+  .bt-nav-actions { gap: 6px !important; }
 }
 @media (min-width: 881px) { .bt-mobile-panel { display: none !important; } }
 @media (max-width: 640px) {
