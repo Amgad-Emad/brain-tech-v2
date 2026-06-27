@@ -8,6 +8,8 @@ use App\Models\Setting;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class SectionController extends Controller
@@ -27,8 +29,21 @@ class SectionController extends Controller
     {
         $schema = Sections::find($section) ?? abort(404);
 
-        $this->saveSettings($schema, (array) $request->input('s', []));
-        $this->saveCollection($schema, (array) $request->input('items', []));
+        // Transaction: settings + collection (which deletes/recreates rows) must
+        // commit together, so a failure can't leave a section half-saved.
+        try {
+            DB::transaction(function () use ($schema, $request): void {
+                $this->saveSettings($schema, (array) $request->input('s', []));
+                $this->saveCollection($schema, (array) $request->input('items', []));
+            });
+        } catch (\Throwable $e) {
+            Log::error('[cms] Failed to save section; changes rolled back.', [
+                'section' => $section,
+                'exception' => $e,
+            ]);
+
+            throw $e;
+        }
 
         Setting::flushCache();
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class TrackController extends Controller
@@ -28,19 +29,27 @@ class TrackController extends Controller
             return response()->noContent();
         }
 
-        Visit::create([
-            'path' => Str::limit($path, 250, ''),
-            'locale' => in_array(($data['locale'] ?? null), ['en', 'ar'], true) ? $data['locale'] : app()->getLocale(),
-            'device' => Visit::deviceFromAgent($request->userAgent()),
-            'source' => Visit::sourceFromReferrer($data['referrer'] ?? null, $request->getHost()),
-            'referrer' => ! empty($data['referrer']) ? Str::limit((string) $data['referrer'], 250, '') : null,
-            'country' => $request->header('CF-IPCountry') ?: ($data['country'] ?? null),
-            'ip' => Visit::maskIp($request->ip()),
-            'visitor_id' => Str::limit((string) $request->cookie('bt_visitor'), 40, ''),
-            'session_id' => Str::limit((string) $request->cookie('bt_session'), 40, ''),
-            'duration' => $duration,
-            'created_at' => now(),
-        ]);
+        // Best-effort analytics: never let a tracking failure break the beacon.
+        try {
+            Visit::create([
+                'path' => Str::limit($path, 250, ''),
+                'locale' => in_array(($data['locale'] ?? null), ['en', 'ar'], true) ? $data['locale'] : app()->getLocale(),
+                'device' => Visit::deviceFromAgent($request->userAgent()),
+                'source' => Visit::sourceFromReferrer($data['referrer'] ?? null, $request->getHost()),
+                'referrer' => ! empty($data['referrer']) ? Str::limit((string) $data['referrer'], 250, '') : null,
+                'country' => $request->header('CF-IPCountry') ?: ($data['country'] ?? null),
+                'ip' => Visit::maskIp($request->ip()),
+                'visitor_id' => Str::limit((string) $request->cookie('bt_visitor'), 40, ''),
+                'session_id' => Str::limit((string) $request->cookie('bt_session'), 40, ''),
+                'duration' => $duration,
+                'created_at' => now(),
+            ]);
+        } catch (\Throwable $e) {
+            Log::warning('[track] Failed to record page-view beacon.', [
+                'path' => $path,
+                'exception' => $e,
+            ]);
+        }
 
         return response()->noContent();
     }

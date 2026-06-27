@@ -13,6 +13,8 @@ use App\Models\Testimonial;
 use App\Models\Value;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class BackupController extends Controller
@@ -30,14 +32,20 @@ class BackupController extends Controller
 
     public function export(): Response
     {
-        $payload = [
-            'version' => 1,
-            'exported_at' => now()->toIso8601String(),
-            'settings' => Setting::all()->mapWithKeys(fn ($s) => [$s->key => json_decode((string) $s->value, true)]),
-            'collections' => collect(self::COLLECTIONS)->map(
-                fn ($model) => $model::orderBy('sort_order')->get()->map->getAttributes()->all()
-            ),
-        ];
+        try {
+            $payload = [
+                'version' => 1,
+                'exported_at' => now()->toIso8601String(),
+                'settings' => Setting::all()->mapWithKeys(fn ($s) => [$s->key => json_decode((string) $s->value, true)]),
+                'collections' => collect(self::COLLECTIONS)->map(
+                    fn ($model) => $model::orderBy('sort_order')->get()->map->getAttributes()->all()
+                ),
+            ];
+        } catch (\Throwable $e) {
+            Log::error('[backup] CMS export failed.', ['exception' => $e]);
+
+            throw $e;
+        }
 
         return response()
             ->json($payload, 200, [
@@ -55,24 +63,38 @@ class BackupController extends Controller
             return back()->withErrors(['file' => 'That file is not valid CMS JSON.']);
         }
 
-        foreach (($data['settings'] ?? []) as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => json_encode($value, JSON_UNESCAPED_UNICODE)],
-            );
-        }
+        // Wrap the whole import in a transaction so a failure mid-way (after
+        // collections are emptied) rolls back instead of wiping CMS content.
+        try {
+            DB::transaction(function () use ($data): void {
+                foreach (($data['settings'] ?? []) as $key => $value) {
+                    Setting::updateOrCreate(
+                        ['key' => $key],
+                        ['value' => json_encode($value, JSON_UNESCAPED_UNICODE)],
+                    );
+                }
 
-        foreach (($data['collections'] ?? []) as $name => $rows) {
-            $model = self::COLLECTIONS[$name] ?? null;
-            if (! $model || ! is_array($rows)) {
-                continue;
-            }
+                foreach (($data['collections'] ?? []) as $name => $rows) {
+                    $model = self::COLLECTIONS[$name] ?? null;
+                    if (! $model || ! is_array($rows)) {
+                        continue;
+                    }
 
-            $model::query()->delete();
-            foreach ($rows as $row) {
-                unset($row['id'], $row['created_at'], $row['updated_at']);
-                $model::create($row);
-            }
+                    $model::query()->delete();
+                    foreach ($rows as $row) {
+                        unset($row['id'], $row['created_at'], $row['updated_at']);
+                        $model::create($row);
+                    }
+                }
+            });
+        } catch (\Throwable $e) {
+            Log::error('[backup] CMS import failed; all changes rolled back.', [
+                'settings_count' => is_array($data['settings'] ?? null) ? count($data['settings']) : 0,
+                'collections' => array_keys($data['collections'] ?? []),
+                'exception' => $e,
+            ]);
+
+            return back()->withErrors(['file' => 'Import failed and was rolled back. See the application logs for details.']);
         }
 
         Setting::flushCache();
