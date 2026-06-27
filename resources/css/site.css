@@ -103,6 +103,16 @@ html { scroll-behavior: smooth; }
 [dir="rtl"] { font-family: 'Cairo', sans-serif; }
 [dir="rtl"] :is(h1, h2, h3, h4) { font-family: 'Cairo', sans-serif !important; letter-spacing: 0 !important; }
 
+/* native <select> dropdown options.
+   On Windows/Linux the popup defaults to a white background, which hid the
+   light theme text (light-on-white). Force opaque, theme-aware colours so the
+   options stay readable on every OS. (--panel* are translucent, so unusable here.) */
+select option,
+select optgroup {
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
 @media (max-width: 880px) {
   .bt-desktop-nav { display: none !important; }
   .bt-cta-desktop { display: none !important; }
