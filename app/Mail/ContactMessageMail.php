@@ -19,14 +19,14 @@ class ContactMessageMail extends Mailable
 
     public function envelope(): Envelope
     {
-        $service = $this->contactMessage->service;
-        $subject = 'New contact inquiry from '.$this->contactMessage->name
-            .($service ? ' — '.$service : '');
+        $name = (string) $this->contactMessage->name;
+        $service = (string) $this->contactMessage->service;
+        $subject = 'New contact inquiry from '.$name.($service !== '' ? ' — '.$service : '');
 
         return new Envelope(
             subject: $subject,
             // Let the team hit "Reply" and reach the customer directly.
-            replyTo: [new Address($this->contactMessage->email, $this->contactMessage->name)],
+            replyTo: [new Address((string) $this->contactMessage->email, $name)],
         );
     }
 

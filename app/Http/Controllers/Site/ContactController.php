@@ -73,19 +73,24 @@ class ContactController extends Controller
         try {
             Mail::to($recipient)->send(new ContactMessageMail($message));
 
-            Log::info('[contact-mail] Notification sent.', [
+            // NOTE: this only confirms the mail transport ACCEPTED the message,
+            // not that it reached the inbox. With a real provider, verify delivery
+            // in their dashboard; a local catcher (Mailpit/Mailtrap) keeps it local.
+            Log::info('[contact-mail] Accepted by mail transport.', [
                 'contact_message_id' => $message->id,
                 'recipient' => $recipient,
-                'reply_to' => $message->email,
+                'reply_to' => (string) $message->email,
                 'mailer' => config('mail.default'),
+                'from' => config('mail.from.address'),
             ]);
         } catch (\Throwable $e) {
             Log::error('[contact-mail] Notification failed to send.', [
                 'contact_message_id' => $message->id,
                 'recipient' => $recipient,
-                'sender_email' => $message->email,
-                'sender_name' => $message->name,
+                'sender_email' => (string) $message->email,
+                'sender_name' => (string) $message->name,
                 'mailer' => config('mail.default'),
+                'from' => config('mail.from.address'),
                 'error' => $e->getMessage(),
                 'exception' => $e,
             ]);
