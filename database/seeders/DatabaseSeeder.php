@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             // Creates the full portfolio (projects 4-23) and attaches media.
             // Must run after ContentSeeder, which seeds the first 3 case studies.
             PortfolioMediaSeeder::class,
-            VisitSeeder::class,
+            // VisitSeeder::class,
         ]);
 
         Setting::flushCache();
