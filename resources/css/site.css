@@ -169,6 +169,13 @@ select optgroup {
 .bt-slider-dot { width: 8px; background: var(--border2); }
 .bt-slider-dot.bt-active { width: 26px; background: var(--acc); }
 
+/* contact form sending overlay */
+[data-contact-loader] { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, visibility .25s ease; }
+[data-contact-loader].bt-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.bt-spinner { animation: bt-spin .8s linear infinite; }
+@keyframes bt-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .bt-spinner { animation-duration: 1.6s; } }
+
 /* auth (login / register / password) */
 .bt-auth-input {
   width: 100%;

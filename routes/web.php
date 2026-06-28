@@ -29,8 +29,8 @@ Route::group([
     Route::get('work', [WorkController::class, 'index'])->name('work.index');
     Route::get('work/{project}', [WorkController::class, 'show'])->name('work.show');
     Route::get('contact', [ContactController::class, 'show'])->name('contact');
-    Route::post('contact', [ContactController::class, 'store'])->name('contact.store');
-    Route::post('subscribe', [SubscriptionController::class, 'store'])->name('subscribe');
+    Route::post('contact', [ContactController::class, 'store'])->name('contact.store')->middleware('throttle:6,1');
+    Route::post('subscribe', [SubscriptionController::class, 'store'])->name('subscribe')->middleware('throttle:6,1');
 });
 
 /*

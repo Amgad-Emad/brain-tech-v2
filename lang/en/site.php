@@ -59,6 +59,8 @@ return [
         'hours_label' => 'Hours',
         'form_title' => 'Send us a message',
         'success' => 'Thank you — your message is on its way. A senior team member will reply within one business day.',
+        'sending_title' => 'Sending your message',
+        'sending_text' => 'Please hold on a moment while we deliver it.',
     ],
 
     'footer' => [

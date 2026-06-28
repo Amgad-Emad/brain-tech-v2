@@ -22,8 +22,10 @@ class ContactRequest extends FormRequest
             'company' => ['nullable', 'string', 'max:150'],
             'service' => ['nullable', 'string', 'max:120'],
             'message' => ['required', 'string', 'min:10', 'max:4000'],
-            // Honeypot — must stay empty.
-            'website' => ['nullable', 'prohibited'],
+            // Honeypot + time-trap are validated silently in the controller
+            // (see ContactController::detectBot) so bots get no error signal.
+            'website' => ['nullable', 'string', 'max:255'],
+            'ts' => ['nullable', 'string'],
         ];
     }
 

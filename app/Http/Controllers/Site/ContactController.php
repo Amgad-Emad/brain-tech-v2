@@ -25,6 +25,17 @@ class ContactController extends Controller
 
     public function store(ContactRequest $request): RedirectResponse
     {
+        if ($reason = $this->detectBot($request)) {
+            Log::warning('[contact] Spam/bot submission discarded.', [
+                'reason' => $reason,
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
+            // Respond as success so bots get no signal — nothing is stored or emailed.
+            return back()->with('contact_sent', true)->with('status', __('site.contact.success'));
+        }
+
         try {
             $message = ContactMessage::create([
                 'name' => $request->string('name'),
@@ -50,6 +61,31 @@ class ContactController extends Controller
         return back()
             ->with('contact_sent', true)
             ->with('status', __('site.contact.success'));
+    }
+
+    /**
+     * Lightweight bot detection. Returns a reason string when the submission
+     * looks automated, or null when it looks human.
+     */
+    private function detectBot(ContactRequest $request): ?string
+    {
+        // 1. Honeypot — a hidden field real users never see or fill.
+        if (filled($request->input('website'))) {
+            return 'honeypot';
+        }
+
+        // 2. Time-trap — humans take a few seconds; bots submit near-instantly.
+        try {
+            $renderedAt = (int) decrypt($request->input('ts'));
+        } catch (\Throwable $e) {
+            return 'missing-or-tampered-timestamp';
+        }
+
+        if (time() - $renderedAt < 3) {
+            return 'submitted-too-fast';
+        }
+
+        return null;
     }
 
     /**

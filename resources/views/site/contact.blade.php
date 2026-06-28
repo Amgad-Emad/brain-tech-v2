@@ -12,9 +12,11 @@
             </div>
 
             <div class="bt-detail-grid" style="display:grid;grid-template-columns:1.15fr 0.85fr;gap:30px;align-items:start;">
-                <form data-reveal="left" action="{{ route('contact.store') }}" method="POST" style="background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:32px;">
+                <form data-reveal="left" data-contact-form action="{{ route('contact.store') }}" method="POST" style="background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:32px;">
                     @csrf
+                    {{-- Anti-bot: honeypot (must stay empty) + time-trap (form render time) --}}
                     <input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
+                    <input type="hidden" name="ts" value="{{ encrypt(time()) }}" />
                     <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;margin:0 0 22px;">{{ __('site.contact.form_title') }}</h2>
 
                     @if (session('contact_sent'))
@@ -64,7 +66,7 @@
                     </a>
                     <a href="tel:{{ preg_replace('/[^0-9+]/', '', st('contact.phone')) }}" style="text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;">
                         <div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ __('site.contact.phone_label') }}</div>
-                        <div style="font-weight:600;font-size:16px;">{{ st('contact.phone') }}</div>
+                        <div style="font-weight:600;font-size:16px;"><bdi dir="ltr">{{ st('contact.phone') }}</bdi></div>
                     </a>
                     <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;">
                         <div style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--faint);margin-bottom:6px;">{{ __('site.contact.office_label') }}</div>
@@ -84,4 +86,14 @@
             </div>
         </div>
     </article>
+
+    {{-- Loading overlay shown while the contact form submits (the email send is synchronous) --}}
+    <div data-contact-loader aria-hidden="true" role="alertdialog" aria-busy="true" aria-label="{{ __('site.contact.sending_title') }}"
+        style="position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(6,6,10,0.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);">
+        <div style="background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:34px 38px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.45);">
+            <span class="bt-spinner" aria-hidden="true" style="display:inline-block;width:46px;height:46px;border-radius:50%;border:3px solid rgba(var(--accRGB),0.22);border-top-color:var(--acc);margin-bottom:20px;"></span>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;margin:0 0 8px;color:var(--fg);">{{ __('site.contact.sending_title') }}</h3>
+            <p style="font-size:14px;line-height:1.55;color:var(--muted);margin:0;">{{ __('site.contact.sending_text') }}</p>
+        </div>
+    </div>
 @endsection

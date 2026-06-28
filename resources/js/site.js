@@ -174,3 +174,33 @@ document.querySelectorAll('[data-faq-toggle]').forEach((btn) => {
     if (document.visibilityState === 'hidden') flush();
   });
 })();
+
+/* ---------- contact form: loading overlay while sending ---------- */
+(function contactLoader() {
+  const form = document.querySelector('[data-contact-form]');
+  const loader = document.querySelector('[data-contact-loader]');
+  if (!form || !loader) return;
+
+  const btn = form.querySelector('button[type="submit"]');
+
+  // The submit event only fires once native validation passes, so the
+  // overlay never shows for an invalid form. It clears on the next page load.
+  form.addEventListener('submit', () => {
+    loader.classList.add('bt-open');
+    loader.setAttribute('aria-hidden', 'false');
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btn.style.cursor = 'wait';
+    }
+  });
+
+  // Restore a clean state if the user returns via the back/forward cache.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      loader.classList.remove('bt-open');
+      loader.setAttribute('aria-hidden', 'true');
+      if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.style.cursor = ''; }
+    }
+  });
+})();

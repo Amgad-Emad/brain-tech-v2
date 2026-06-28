@@ -62,7 +62,7 @@
 
         <div class="bt-foot-bottom" style="border-top:1px solid var(--border);padding-top:26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
             <p style="font-size:13px;color:var(--faint);margin:0;">{{ st('footer.rights') }}</p>
-            <p style="font-size:13px;color:var(--faint);margin:0;">{{ st('contact.email') }} · {{ st('contact.phone') }}</p>
+            <p style="font-size:13px;color:var(--faint);margin:0;"><bdi dir="ltr">{{ st('contact.email') }}</bdi> · <bdi dir="ltr">{{ st('contact.phone') }}</bdi></p>
         </div>
     </div>
 </footer>
