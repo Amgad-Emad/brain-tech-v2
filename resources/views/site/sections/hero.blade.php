@@ -9,7 +9,18 @@
                 {{ st('hero.badge') }}
             </div>
         @endif
-        <h1 data-reveal="clip" style="transition-delay:.07s;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(40px,6.4vw,76px);line-height:{{ is_rtl() ? '1.32' : '1.04' }};letter-spacing:-0.025em;margin:0 0 22px;text-wrap:balance;">{{ st('hero.h1pre') }}<span style="background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ st('hero.h1hi') }}</span>{{ st('hero.h1post') }}</h1>
+        @php
+            $pre = (string) st('hero.h1pre');
+            $hi = (string) st('hero.h1hi');
+            $post = (string) st('hero.h1post');
+            // The admin's TrimStrings middleware strips trailing/leading spaces from
+            // saved settings, which merges the highlight with the neighbouring words
+            // (e.g. "فحسب،بل"). Re-insert one word space at each boundary — never
+            // before punctuation, never a double (HTML collapses extra whitespace).
+            $needLead = $pre !== '' && $hi !== '' && ! preg_match('/\s$/u', $pre);
+            $needTrail = $hi !== '' && $post !== '' && ! preg_match('/^\s/u', $post) && (bool) preg_match('/^[\p{L}\p{N}]/u', $post);
+        @endphp
+        <h1 data-reveal="clip" style="transition-delay:.07s;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(40px,6.4vw,76px);line-height:{{ is_rtl() ? '1.45' : '1.04' }};letter-spacing:-0.025em;margin:0 0 22px;text-wrap:balance;">{{ $pre }}{!! $needLead ? ' ' : '' !!}<span style="background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ $hi }}</span>{!! $needTrail ? ' ' : '' !!}{{ $post }}</h1>
         <p data-reveal style="transition-delay:.14s;font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--muted);max-width:620px;margin:0 auto 40px;text-wrap:pretty;">{{ st('hero.sub') }}</p>
         <div class="bt-hero-ctas" data-reveal style="transition-delay:.21s;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
             <a href="{{ route('contact') }}" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--g);color:#fff;text-decoration:none;font-size:16px;font-weight:600;padding:16px 30px;border-radius:13px;box-shadow:0 10px 34px rgba(var(--accRGB),0.4);">{{ st('hero.cta1', __('site.actions.start_project')) }}
