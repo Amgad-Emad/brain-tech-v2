@@ -2,6 +2,7 @@
 
 use App\Models\Service;
 use App\Models\Setting;
+use App\Models\TechLogo;
 use App\Models\Testimonial;
 use App\Models\User;
 
@@ -39,12 +40,21 @@ describe('settings editor', function () {
         expect(Setting::localized('hero.badge'))->toBe('نحجز الربع الرابع');
     });
 
-    it('splits the trust logos mono field into a list', function () {
-        $this->put(route('admin.section.update', 'trust'), [
-            's' => ['trust.label' => ['en' => 'Trusted', 'ar' => 'موثوق'], 'trust.logos' => 'Acme, Globex, Initech'],
-        ])->assertRedirect();
+    it('saves the trust heading alongside its tech-logo collection', function () {
+        $fields = [['image', 'mono'], ['name', 'text']];
+        $items = itemsFrom(TechLogo::ordered()->get(), $fields);
+        $items[0]['name']['en'] = 'Renamed Tech';
+        $items[] = ['id' => '', 'image' => 'newtool.jpeg', 'name' => ['en' => 'New Tool', 'ar' => 'أداة']];
 
-        expect(Setting::getValue('trust.logos'))->toBe(['Acme', 'Globex', 'Initech']);
+        $this->put(route('admin.section.update', 'trust'), [
+            's' => ['trust.label' => ['en' => 'Built with', 'ar' => 'مبني بـ']],
+            'items' => $items,
+        ])->assertRedirect(route('admin.section.edit', 'trust'))->assertSessionHas('toast');
+
+        app()->setLocale('en');
+        expect(Setting::localized('trust.label'))->toBe('Built with');
+        expect(TechLogo::ordered()->first()->t('name', 'en'))->toBe('Renamed Tech');
+        expect(TechLogo::where('image', 'newtool.jpeg')->exists())->toBeTrue();
     });
 });
 
