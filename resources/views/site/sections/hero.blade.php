@@ -9,7 +9,7 @@
                 {{ st('hero.badge') }}
             </div>
         @endif
-        <h1 data-reveal="clip" style="transition-delay:.07s;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(40px,6.4vw,76px);line-height:1.04;letter-spacing:-0.025em;margin:0 0 22px;text-wrap:balance;">{{ st('hero.h1pre') }}<span style="background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ st('hero.h1hi') }}</span>{{ st('hero.h1post') }}</h1>
+        <h1 data-reveal="clip" style="transition-delay:.07s;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(40px,6.4vw,76px);line-height:{{ is_rtl() ? '1.32' : '1.04' }};letter-spacing:-0.025em;margin:0 0 22px;text-wrap:balance;">{{ st('hero.h1pre') }}<span style="background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ st('hero.h1hi') }}</span>{{ st('hero.h1post') }}</h1>
         <p data-reveal style="transition-delay:.14s;font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--muted);max-width:620px;margin:0 auto 40px;text-wrap:pretty;">{{ st('hero.sub') }}</p>
         <div class="bt-hero-ctas" data-reveal style="transition-delay:.21s;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
             <a href="{{ route('contact') }}" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--g);color:#fff;text-decoration:none;font-size:16px;font-weight:600;padding:16px 30px;border-radius:13px;box-shadow:0 10px 34px rgba(var(--accRGB),0.4);">{{ st('hero.cta1', __('site.actions.start_project')) }}
