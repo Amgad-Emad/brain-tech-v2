@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\Stat;
+use App\Models\TechLogo;
 use App\Models\Testimonial;
 use App\Models\Value;
 use Illuminate\Http\Request;
@@ -53,13 +54,6 @@ class PreviewController extends Controller
         $overrides = [];
 
         foreach ($schema['settings'] ?? [] as [$key, $type]) {
-            if ($key === 'trust.logos') {
-                $overrides[$key] = collect(explode(',', (string) ($bag[$key] ?? '')))
-                    ->map(fn ($l) => trim($l))->filter()->values()->all();
-
-                continue;
-            }
-
             $overrides[$key] = in_array($type, ['text', 'area'], true)
                 ? ['en' => (string) ($bag[$key]['en'] ?? ''), 'ar' => (string) ($bag[$key]['ar'] ?? '')]
                 : (string) ($bag[$key] ?? '');
@@ -135,6 +129,7 @@ class PreviewController extends Controller
 
         // Everything else lives on the home page.
         return ['site.home', [
+            'techLogos' => $section === 'trust' ? $rows : TechLogo::ordered()->get(),
             'services' => in_array($section, ['services', 'offers'], true) ? $rows : Service::visible()->ordered()->get(),
             'values' => $section === 'values' ? $rows : Value::visible()->ordered()->get(),
             'steps' => $section === 'process' ? $rows : ProcessStep::visible()->ordered()->get(),

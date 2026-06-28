@@ -8,6 +8,7 @@ use App\Models\ProcessStep;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\Stat;
+use App\Models\TechLogo;
 use App\Models\Testimonial;
 use App\Models\Value;
 use Illuminate\Contracts\View\View;
@@ -17,6 +18,7 @@ class HomeController extends Controller
     public function index(): View
     {
         return view('site.home', [
+            'techLogos' => TechLogo::ordered()->get(),
             'services' => Service::visible()->ordered()->get(),
             'values' => Value::visible()->ordered()->get(),
             'steps' => ProcessStep::visible()->ordered()->get(),

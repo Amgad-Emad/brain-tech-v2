@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SettingsSeeder::class,
             ContentSeeder::class,
+            // Technology logos shown in the home "trust" bar.
+            TechLogoSeeder::class,
             // Creates the full portfolio (projects 4-23) and attaches media.
             // Must run after ContentSeeder, which seeds the first 3 case studies.
             PortfolioMediaSeeder::class,

@@ -7,6 +7,7 @@ use App\Models\ProcessStep;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\Stat;
+use App\Models\TechLogo;
 use App\Models\Testimonial;
 use App\Models\Value;
 
@@ -71,10 +72,13 @@ class Sections
             'trust' => [
                 'group' => 'home', 'icon' => 'shield', 'hideable' => true,
                 'label' => ['en' => 'Trust bar', 'ar' => 'شريط الثقة'],
-                'desc' => ['en' => 'The "trusted by" line and client logo names.', 'ar' => 'سطر «موثوق من» وأسماء الشعارات.'],
+                'desc' => ['en' => 'The "trusted by" line and the technology logos. Add an image file (placed in /public) and a name for each.', 'ar' => 'سطر «موثوق من» وشعارات التقنيات. أضِف اسم ملف صورة (موجود في مجلد public) واسمًا لكل شعار.'],
                 'settings' => [
                     ['trust.label', 'text', 'Heading'],
-                    ['trust.logos', 'mono', 'Logo names (comma separated)'],
+                ],
+                'collection' => [
+                    'model' => TechLogo::class, 'label' => 'Tech logos', 'dynamic' => true,
+                    'fields' => [['image', 'mono', 'Image file (in /public, e.g. react.jpeg)'], ['name', 'text', 'Name']],
                 ],
             ],
             'services' => [

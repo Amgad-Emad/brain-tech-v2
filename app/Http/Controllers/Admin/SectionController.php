@@ -61,11 +61,7 @@ class SectionController extends Controller
     {
         $out = [];
         foreach ($schema['settings'] ?? [] as [$key, $type]) {
-            if ($key === 'trust.logos') {
-                $out[$key] = implode(', ', (array) setting_raw($key, []));
-            } else {
-                $out[$key] = setting_raw($key);
-            }
+            $out[$key] = setting_raw($key);
         }
 
         return $out;
@@ -75,14 +71,6 @@ class SectionController extends Controller
     {
         foreach ($schema['settings'] ?? [] as [$key, $type]) {
             $group = Str::before($key, '.');
-
-            if ($key === 'trust.logos') {
-                $logos = collect(explode(',', (string) ($bag[$key] ?? '')))
-                    ->map(fn ($l) => trim($l))->filter()->values()->all();
-                Setting::put($key, $logos, $group);
-
-                continue;
-            }
 
             if (in_array($type, ['text', 'area'], true)) {
                 Setting::put($key, [

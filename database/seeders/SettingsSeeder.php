@@ -35,8 +35,7 @@ class SettingsSeeder extends Seeder
         $this->put('hero.cta2', ['en' => 'See Our Work', 'ar' => 'شاهد أعمالنا'], 'hero', true);
 
         // --- Section eyebrows / titles ----------------------------------
-        $this->put('trust.label', ['en' => 'Trusted by teams shipping at scale', 'ar' => 'موثوق من فرق تعمل على نطاق واسع'], 'sections', true);
-        $this->put('trust.logos', ['Northwind', 'Helio', 'Quantix', 'Lumen', 'Vaulta'], 'sections');
+        $this->put('trust.label', ['en' => 'The technologies we build with', 'ar' => 'التقنيات التي نبني بها'], 'sections', true);
 
         $this->put('services.eyebrow', ['en' => 'What we do', 'ar' => 'ماذا نقدّم'], 'sections', true);
         $this->put('services.title', ['en' => 'Four disciplines, one accountable team.', 'ar' => 'أربعة تخصصات، وفريق واحد مسؤول.'], 'sections', true);
