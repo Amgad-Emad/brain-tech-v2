@@ -13,12 +13,14 @@
 
     @if ($count)
         <style>
-            .bt-marquee{position:relative;width:100%;overflow:hidden;
+            /* direction:ltr (on the whole marquee, not just the track) keeps the
+               scroll seamless on RTL pages — otherwise the wide track is right-
+               aligned and laid out right-to-left while the animation moves left,
+               so a blank gap opens on the right. Logos + Latin names have no
+               reading direction, so forcing LTR here is purely visual. */
+            .bt-marquee{position:relative;width:100%;overflow:hidden;direction:ltr;
                 -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
                         mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);}
-            /* direction:ltr keeps the scroll seamless on RTL pages — otherwise the
-               row lays out right-to-left while the animation still moves left,
-               leaving a blank gap. Logos + Latin names have no reading direction. */
             .bt-marquee-track{display:flex;direction:ltr;width:max-content;align-items:flex-start;
                 animation:bt-marquee-scroll 40s linear infinite;will-change:transform;}
             .bt-marquee:hover .bt-marquee-track{animation-play-state:paused;}
