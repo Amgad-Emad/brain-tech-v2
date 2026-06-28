@@ -148,7 +148,14 @@ document.querySelectorAll('[data-repeater]').forEach((container) => {
 
   frame.addEventListener('load', () => {
     if (!anchor) return;
-    try { frame.contentWindow.document.getElementById(anchor)?.scrollIntoView({ block: 'start' }); } catch (e) { /* ignore */ }
+    // Scroll the iframe's OWN viewport to the section — never call
+    // scrollIntoView(), which also scrolls the parent page (jumping the
+    // admin view up to the preview on every keystroke-triggered reload).
+    try {
+      const win = frame.contentWindow;
+      const el = win.document.getElementById(anchor);
+      if (el) win.scrollTo(0, el.getBoundingClientRect().top + win.scrollY);
+    } catch (e) { /* ignore */ }
   });
 
   form.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(update, 550); });
