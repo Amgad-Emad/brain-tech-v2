@@ -66,7 +66,11 @@ function handleReveal() {
   for (const el of revealEls) {
     const r = el.getBoundingClientRect();
     const inView = r.top < vh * 0.9 && r.bottom > vh * 0.08;
-    el.classList.toggle('bt-in', inView);
+    // Reveal once and keep it — never toggle back to the hidden state. The
+    // hidden state shifts an element down 46px with a blur, so re-hiding a
+    // heading as you scroll past makes it slide down over the content below
+    // it (e.g. the process heading dropping onto the step nodes).
+    if (inView) el.classList.add('bt-in');
   }
 }
 
