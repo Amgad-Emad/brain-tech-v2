@@ -270,7 +270,9 @@ select optgroup {
   transition: opacity .4s ease, transform .4s ease;
 }
 .bt-process-step:hover .bt-process-node {
-  transform: translateY(-5px);
+  /* No translateY lift: the nodes sit on a horizontal connector line, and
+     lifting only the hovered node detaches it from the line (the line still
+     meets the un-lifted neighbours). The ring + glow below are the hover cue. */
   border-color: rgba(var(--accRGB), 0.5);
   box-shadow: 0 16px 38px rgba(var(--accRGB), 0.34);
 }
