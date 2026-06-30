@@ -111,4 +111,5 @@ a { color: inherit; }
   .bt-sidebar.bt-open { transform: none !important; }
   .bt-burger { display: inline-flex !important; }
   .bt-twocol { grid-template-columns: 1fr !important; }
+  .bt-result-cols { grid-template-columns: 1fr !important; }
 }

@@ -117,6 +117,10 @@
 
             <div style="margin-top:16px;">
                 <div style="font-size:11px;letter-spacing:0.09em;text-transform:uppercase;color:var(--faint);font-weight:700;padding:0 13px 8px;">{{ __('admin.group.collections') }}</div>
+                <a href="{{ route('admin.projects.index') }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;border-radius:10px;text-decoration:none;font-size:13.5px;font-weight:500;{{ request()->routeIs('admin.projects.*') ? 'background:rgba(var(--accRGB,13,200,123),0.14);color:var(--acc);' : 'color:var(--fg);' }}">
+                    <span style="display:flex;align-items:center;gap:10px;"><span style="color:var(--acc);"><x-admin-icon name="folder" size="16" /></span>{{ __('admin.projects.title') }}</span>
+                    <span style="font-size:11px;color:var(--faint);background:var(--panel2);padding:2px 7px;border-radius:99px;">{{ \App\Models\Project::count() }}</span>
+                </a>
                 <a href="{{ route('admin.messages.index') }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;border-radius:10px;text-decoration:none;font-size:13.5px;font-weight:500;{{ request()->routeIs('admin.messages.*') ? 'background:rgba(var(--accRGB,13,200,123),0.14);color:var(--acc);' : 'color:var(--fg);' }}">
                     <span style="display:flex;align-items:center;gap:10px;"><span style="color:var(--acc);"><x-admin-icon name="mail" size="16" /></span>{{ __('admin.nav.messages') }}</span>
                     @if ($unread)<span style="font-size:11px;color:#06281a;background:var(--acc);padding:2px 7px;border-radius:99px;font-weight:700;">{{ $unread }}</span>@endif
